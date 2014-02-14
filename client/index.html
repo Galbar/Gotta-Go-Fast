@@ -22,34 +22,34 @@
 
 		//stats thing
 		var stats = new Stats();
-       stats.setMode(0);
-       stats.domElement.style.position = 'absolute';
-       stats.domElement.style.left = '0px';
-       stats.domElement.style.top = '0px';
-       document.body.appendChild(stats.domElement);
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
+        
+        var username = prompt("Enter your nickname: ") || "Anonymous";
+        var socket = io.connect(SERVER_IP+':'+SERVER_PORT);
+        var canvas = document.getElementById("gameCanvas");
+        canvas.style.backgroundColor = 'black';
+        var context = canvas.getContext('2d');
+        var kb = new KeyboardJS(true);
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        
+        socket.on('connect', function () {
+            socket.id = socket.socket.sessionid;
+            socket.emit('userConnected', username);
+        });
 
-       var username = prompt("Enter your nickname: ") || "Anonymous";
-       var socket = io.connect('http://localhost:4242');
-       var canvas = document.getElementById("gameCanvas");
-       canvas.style.backgroundColor = 'black';
-       var context = canvas.getContext('2d');
-       var kb = new KeyboardJS(true);
 
-       canvas.width = window.innerWidth;
-       canvas.height = window.innerHeight;
+        function logic (dt) {
 
+        }
 
-       socket.on('connect', function () {
-         socket.id = socket.socket.sessionid;
-         socket.emit('userConnected', username);
-     });
-
-
-       function logic (dt) {
-
-       }
-
-       function render (ctx) {
+        function render (ctx) {
          ctx.clearRect(0,0, canvas.width, canvas.height);
      }
 
@@ -62,7 +62,7 @@
      window.onresize();
 
      var oldDate = +new Date();
-     
+
      function mainLoop () {
          requestAnimFrame(mainLoop);
          stats.begin();
