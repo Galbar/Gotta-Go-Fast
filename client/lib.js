@@ -96,6 +96,6 @@ function getRandomUsername () {
 
 
 
-	return names[Math.floor(Math.random()*30)] + surname1[Math.floor(Math.random()*30)] + surname2[Math.floor(Math.random()*25)];
+	return names[Math.floor(Math.random()*31)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
 }
 
