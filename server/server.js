@@ -2,6 +2,7 @@ var io = require('socket.io').listen(4242);
 io.set('log level', 1);
 
 var Player = require('./Player');
+var Sida = require('./lib');
 
 var players = {};
 
