@@ -10,6 +10,5 @@ Player.prototype = {
 	h: 100
 }
 
-
 Player.prototype.render = function(ctx) {
 }
