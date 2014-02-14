@@ -56,22 +56,15 @@ function getRandomUsername () {
 	surname1[19] = " Akira";
 	surname1[20] = " Torramilans";
 	surname1[21] = " Torramilans";
-	surname1[22] = " Torramilans";
-	surname1[23] = " Torramilans";
-	surname1[24] = " Torramilans";
-	surname1[25] = " Torramilans";
-	surname1[26] = " Torramilans";
-	surname1[27] = " Torramilans";
-	surname1[28] = " Torramilans";
-	surname1[29] = " Kross";
-	surname1[30] = " Nieuwenhuis";
-	surname1[31] = " Khaeshah";
-	surname1[32] = " Tarditti";
-	surname1[33] = " Mejingjard";
-	surname1[34] = " Junior";
-	surname1[35] = " Delgado";
-	surname1[36] = " Guerrero";
-	surname1[37] = " Milans";
+	surname1[22] = " Kross";
+	surname1[23] = " Nieuwenhuis";
+	surname1[24] = " Khaeshah";
+	surname1[25] = " Tarditti";
+	surname1[26] = " Mejingjard";
+	surname1[27] = " Junior";
+	surname1[28] = " Delgado";
+	surname1[29] = " Guerrero";
+	surname1[30] = " Milans";
 
 	var surname2 = new Array();
 	surname2[0] = " Walker";
@@ -100,16 +93,9 @@ function getRandomUsername () {
 	surname2[23] = " Pinkman";
 	surname2[24] = " Torramilans";
 	surname2[25] = " Torramilans"; 
-	surname2[26] = " Torramilans";
-	surname2[27] = " Torramilans"; 
-	surname2[28] = " Torramilans";
-	surname2[29] = " Torramilans"; 
-	surname2[30] = " Torramilans";
-	surname2[31] = " Torramilans"; 
-	surname2[32] = " Torramilans";
-	surname2[33] = " Torramilans"; 
 
 
-	return names[Math.floor(Math.random()*30)] + surname1[Math.floor(Math.random()*37)] + surname2[Math.floor(Math.random()*33)];
+
+	return names[Math.floor(Math.random()*30)] + surname1[Math.floor(Math.random()*30)] + surname2[Math.floor(Math.random()*25)];
 }
 
