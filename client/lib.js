@@ -1,6 +1,7 @@
 function getRandomUsername () {
 	var s = Math.floor(Math.random()*4);
 	var names = new Array();
+	
 	names[0] = "David";
 	names[1] = "Daniel";
 	names[2] = "Bradford";
@@ -94,8 +95,5 @@ function getRandomUsername () {
 	surname2[24] = " Torramilans";
 	surname2[25] = " Torramilans"; 
 
-
-
 	return names[Math.floor(Math.random()*31)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
 }
-
