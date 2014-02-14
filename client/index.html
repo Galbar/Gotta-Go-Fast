@@ -45,36 +45,35 @@
         });
 
 
-        function logic (dt) {
+        function update (dt) {
 
         }
 
-        function render (ctx) {
-         ctx.clearRect(0,0, canvas.width, canvas.height);
-     }
+        function draw (ctx) {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+        }
 
+        window.onresize = function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            render(context);
+        }
+        window.onresize();
 
-     window.onresize = function () {
-         canvas.width = window.innerWidth;
-         canvas.height = window.innerHeight;
-         render(context);
-     }
-     window.onresize();
+        var oldDate = +new Date();
 
-     var oldDate = +new Date();
+        function mainLoop () {
+            requestAnimFrame(mainLoop);
+            stats.begin();
+            var newDate = +new Date();
+            var delta = newDate - oldDate;
+            oldDate = newDate;
+            update(delta);
+            draw(context);
+            stats.end();
+        }
+        requestAnimFrame(mainLoop);
 
-     function mainLoop () {
-         requestAnimFrame(mainLoop);
-         stats.begin();
-         var newDate = +new Date();
-         var delta = newDate - oldDate;
-         oldDate = newDate;
-         logic(delta);
-         render(context);
-         stats.end();
-     }
-     requestAnimFrame(mainLoop);
+    </script>
 
-     </script>
-
- </body>
+</body>
