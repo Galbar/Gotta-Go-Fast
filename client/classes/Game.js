@@ -74,5 +74,6 @@ Game.prototype.play = function() {
     this.scenes[MATCH_MAKING_SCENE] = new MatchMakingScene(this.socket);
     this.scenes[GAME_SCENE] = new GameScene(this.socket);
     var self = this;
-    requestAnimFrame(gameLoop);
+    //requestAnimFrame(gameLoop);
+    setTimeout(gameLoop, 16)
 };

@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 2;
+var standardGameSize = 3;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -120,7 +120,7 @@ io.sockets.on('connection', function (socket) {
 		games[game].client_status[pl] = players;
 		games[game].client_status_retrieved[pl] = true;
 		var done = true;
-		for (var it in games[game].client_status_retrieved) {
+		for (var it =0; it < games[game].size; it++) {
 			done = (done && games[game].client_status_retrieved[it]);
 		}
 		if (done) fixGameStatus(games[game]);

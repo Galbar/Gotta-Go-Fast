@@ -28,7 +28,8 @@
         var game = new Game();
 
         function gameLoop () {
-            requestAnimFrame(gameLoop);
+            //requestAnimFrame(gameLoop);
+            setTimeout(gameLoop, 16)
             game._play();
         }
 
