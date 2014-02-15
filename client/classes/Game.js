@@ -13,7 +13,6 @@ function Game () {
 
     this.socket.on('updateDeltatime', function (deltatime) {
         self.deltatime = deltatime/1000;
-        console.log("dt: "+self.deltatime);
     });
 
     // Canvas stuff

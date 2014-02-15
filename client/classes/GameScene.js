@@ -14,7 +14,6 @@ function GameScene (socket) {
     });
 
     this.socket.on('updateGameStatus', function (new_status) {
-        console.log('updateGameStatus');
         for (var pl in self.players) {
             self.players[pl].x = new_status[pl].x;
             self.players[pl].y = new_status[pl].y;
@@ -22,7 +21,6 @@ function GameScene (socket) {
     });
 
     this.socket.on('retrieveGameStatus', function() {
-        console.log('retrieveGameStatus');
         var players = [];
         for (var pl in self.players) {
             players[pl] = { x: self.players[pl].x,
