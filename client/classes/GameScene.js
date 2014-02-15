@@ -75,7 +75,7 @@ GameScene.prototype.update = function(deltatime) {
 };
 
 GameScene.prototype.draw = function(context) {
-    context.fillStyle = "#855C33";
+    context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
     for (var it in this.players) this.players[it].draw(context);
