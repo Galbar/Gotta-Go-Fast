@@ -25,8 +25,9 @@ Player.prototype.command = function (c) {
 	//else if (c === 'S') this.vx = 0;
 }
 
-Player.prototype.update = function(dt) {
-	this.x += this.vx*dt;
+Player.prototype.update = function(dt, wspeed, obstacles) {
+	this.x += (this.vx+wspeed)*dt;
+	//this.x += this.vx*dt;
 	this.y += this.vy*dt;
 
 	this.vy += 500*dt;
