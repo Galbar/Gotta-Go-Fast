@@ -11,8 +11,8 @@ function Player (id, n) {
 	this.color = '#'+Math.floor(n*16777215).toString(16);
 	this.vx = 0;
 	this.vy = 0;
-	this.speedx = 100;
-	this.speedy = -100;
+	this.speedx = 1000;
+	this.speedy = -1000;
 	this.is_active = false;
 	//this.image = userIMG;
 }
