@@ -63,7 +63,7 @@ GameScene.prototype.sendCommand = function(c) {
 GameScene.prototype.update = function(deltatime) {
     if (!this.match_start) {return;};
 
-    if (this.kb.char("W") || this.kb.char(" ") || this.kb.char("&"))
+    if ((this.players[this.player_id].vy === 0 ) && ( this.kb.char("W") || this.kb.char(" ") || this.kb.char("&")))
         this.sendCommand("U");
     else if (this.kb.char("A") || this.kb.char("%"))
         this.sendCommand("L");
