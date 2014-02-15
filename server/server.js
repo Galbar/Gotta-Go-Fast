@@ -8,20 +8,19 @@ var Player = require('./player');
 var gameId = 0;
 var standardGameSize = 2;
 var games = [];
-var players = [];
 
 function searchGame(idPlayer){
 	var assignat=false;
 	for(var game in games){
 		if (assignat === true) break;
-		console.log(games[game].numPlayers());
 		if(games[game].players.length < games[game].size){
 			assignat = true;
-			games[game].players[games[game].players.length] = idPlayer;
+			games[game].players[games[game].players.length] = new Player(idPlayer);
 			if(games[game].players.length == games[game].size){
+				var seed = Date();
 				for(var pl in games[game].players){
-					var sid = games[game].players[pl];
-					io.sockets.sockets[sid].emit('matchFound', game, pl);
+					var sid = games[game].players[pl].id;
+					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed);
 				}
 			}
 		}
@@ -29,30 +28,56 @@ function searchGame(idPlayer){
 	if(assignat===false){
 		++gameId;
 		newGame = new Game(standardGameSize);
-		newGame.players[0] = idPlayer;
+		newGame.players[0] = new Player(idPlayer);
 		assignat=true;
 		games[gameId] = newGame;
 	}
-	console.log(games);
+}
+
+function consultaGameReady(game){
+	for(var pl in game.players){
+		if(game.players[pl].ready === false) return false;
+	}
+	return true;
+}
+
+function startGame(game){
+	for(var pl in game.players){
+		io.sockets.sockets[game.players[pl].id].emit('matchStart');
+	}
+	game.is_active=true;
+}
+
+function sendAllGameCommands () {
+	for (var game in games) {
+		if (games[game].is_active) {
+			for (var pl in games[game].players) {
+				io.sockets.sockets[games[game].players[pl].id].emit('updateDeltatime', 30);
+				io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands);
+			}
+			for (var it in games[game].commands) {
+				games[game].commands[it] = "S";
+			};
+		}
+	}
 }
 
 io.sockets.on('connection', function (socket) {
 
 	socket.on('userRegister', function () {
-		var player = new Player(socket.id);
-		players[socket.id] = player;
 		socket.emit('okRegister');
 		searchGame(socket.id);
 	});
 
-	socket.on('userReady', function () {
-
+	socket.on('userReady', function (game, pl) {
+		games[game].players[pl].ready=true;
+		if(consultaGameReady(games[game])===true) {
+			startGame(games[game]);
+		}
 	});
 
-	socket.on('playerUpdate', function (playerData) {
-		/*var player = players[socket.id];
-		if (player !== undefined) player.updateWithPlayerData(playerData);
-		socket.broadcast.emit('playerUpdate', player);*/
+	socket.on('userAction', function (c, game, pl) {
+		games[game].commands[pl] = c;
 	});
 
 	socket.on('disconnect', function () {
@@ -64,3 +89,5 @@ io.sockets.on('connection', function (socket) {
 	});
 
 });
+
+setInterval(sendAllGameCommands, 30);

@@ -4,11 +4,16 @@ var GAME_SCENE = 2;
 
 function Game () {
     // Control stuff
-    this.clock = new Date();
+    this.deltatime = 50;
     this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
     var self = this;
     this.socket.on('connect', function () {
         self.socket.id = self.socket.socket.sessionid;
+    });
+
+    this.socket.on('updateDeltatime', function (deltatime) {
+        self.deltatime = deltatime/1000;
+        console.log("dt: "+self.deltatime);
     });
 
     // Canvas stuff
@@ -34,10 +39,10 @@ function Game () {
     // Game scenes
     this.scenes = [];
     this.current_scene;
-
+    var self = this;
     // Init stuff
-    window.onresize = function (canvas) {
-        canvas.style.top = (window.innerHeight/2 - CANVAS_HEIGHT/2)+"px";
+    window.onresize = function () {
+        self.canvas.style.top = (window.innerHeight/2 - CANVAS_HEIGHT/2)+"px";
     }
     window.onresize(this.canvas);
 
@@ -58,9 +63,7 @@ Game.prototype.draw = function() {
 
 Game.prototype._play = function() {
     this.stats.begin();
-    var new_time = new Date();
-    this.update(new_time-this.clock);
-    this.clock = new_time;
+    this.update(this.deltatime);
     this.draw();
     this.stats.end();
 };
