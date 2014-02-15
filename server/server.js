@@ -74,7 +74,6 @@ function fixGameStatus (game) {
 		fixed_status[pl].x /= game.size;
 		fixed_status[pl].y /= game.size;
 	}
-	console.log(Date()+"=> fixGameStatus");
     for (var pl in game.players) {
 		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
 	}
@@ -125,7 +124,7 @@ io.sockets.on('connection', function (socket) {
 		for (var it =0; it < games[game].size; it++) {
 			done = (done && games[game].client_status_retrieved[it]);
 		}
-		if (done) {
+		if (done === true) {
 			fixGameStatus(games[game]);
 			for (var it =0; it < games[game].size; it++) {
 				games[game].client_status_retrieved[it] = false;
