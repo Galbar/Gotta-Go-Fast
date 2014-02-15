@@ -19,7 +19,7 @@ function Player (id, n) {
 
 Player.prototype.command = function (c) {
 	this.vx = 0;
-	if (c === 'U' && this.vy === 0) this.vy = this.speedy;
+	if (c === 'U') this.vy = this.speedy;
 	else if (c === 'L') this.vx = -this.speedx;
 	else if (c === 'R') this.vx = this.speedx;
 	//else if (c === 'S') this.vx = 0;
