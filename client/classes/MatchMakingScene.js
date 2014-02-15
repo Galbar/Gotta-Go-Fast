@@ -4,12 +4,13 @@ function MatchMakingScene (socket) {
     this.register_emit = false;
     this.ok_register = false;
 
+    var self = this;
     this.socket.on('ok_register', function () {
-        this.ok_register = true;
+        self.ok_register = true;
     });
 
     this.socket.on('matchFound', function () {
-        this.match_found = true; 
+        self.match_found = true; 
     });
 }
 
