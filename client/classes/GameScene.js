@@ -30,13 +30,22 @@ function GameScene (socket) {
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players);
     });
 
-    this.socket.on('matchFound', function (match_id, player_id, players, seed, names, obs_width) {
+    this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
         self.match_id = match_id;
         self.player_id = player_id;
-
+        var obs_width = 100;
         // Init players
         var x_pos = 50;
         self.randomGenerator = new Math.seedrandom(seed);
+
+        var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
+
+        for (var i = 0; i < n_obs; i++) {
+            self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
+            self.obstacles[i].x = i*obs_width;
+        }
+        console.log(self.obstacles.length);
+
         for (var it in players) {
             self.players[it] = new Player(players[it].id, self.randomGenerator());
             self.players[it].x = x_pos;
@@ -45,12 +54,6 @@ function GameScene (socket) {
             self.players[it].name = names[it];
             x_pos += 60;
         };
-
-        var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
-
-        for (var i = 0; i < n_obs; i++) {
-            self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
-        }
 
         self.socket.emit('userReady', self.match_id, self.player_id);
     });
@@ -76,7 +79,7 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -200, this.obstacles);
     for (var it in this.players) this.players[it].update(deltatime,-200,this.obstacles);
 };
 

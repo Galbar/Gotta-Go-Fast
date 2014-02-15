@@ -44,22 +44,49 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 		}
 	}
 
-	if (obs1.sizeup > this.y) {
-		// Colision arriba a la izquierda
-		this.x = obs1.sizeup;
-	}
-	else if (obs1.sizedown < this.y+this.height) {
-		// Colision abajo a la izquierda
-		this.x = obs1.sizedown-this.height;
+	var dist_y;
+	var pos_y;
+	var dist_x;
+	if (obs1 !== undefined) {
+		if (obs1.sizeup > this.y) {
+			// Colision arriba a la izquierda
+			dist_y = Math.abs(this.y - obs1.sizeup);
+			pos_y = obs1.sizeup;
+		}
+		else if (obs1.sizedown < this.y+this.height) {
+			// Colision abajo a la izquierda
+			dist_y = Math.abs(obs1.sizedown-this.height);
+			pos_y = obs1.sizedown-this.height;
+		}
 	}
 
-	if (obs2.sizeup > this.y) {
-		// Colision arriba a la derecha
-		this.x = obs2.sizeup;
+	if (obs2 !== undefined) {
+		if (obs2.sizeup > this.y) {
+			// Colision arriba a la derecha
+			if (dist_y === undefined || dist_y > Math.abs(this.y - obs2.sizeup)) {
+				dist_y = Math.abs(this.y - obs2.sizeup);
+				pos_y = obs2.sizeup;
+			}
+		}
+		else if (obs2.sizedown < this.y+this.height) {
+			// Colision abajo a la derecha
+			if (dist_y === undefined || dist_y > Math.abs(this.y - obs2.sizeup)) {
+				dist_y = Math.abs(obs2.sizedown-this.height);
+				pos_y = obs2.sizedown-this.height;
+			}
+		}
+		if (pos_y !== undefined) {
+			this.y = pos_y;
+			this.vy = 0;
+		}
 	}
-	else if (obs2.sizedown < this.y+this.height) {
-		// Colision abajo a la derecha
-		this.x = obs2.sizedown-this.height;
+
+	if (this.y > CANVAS_HEIGHT-this.height) {
+		this.y = CANVAS_HEIGHT-this.height;
+		this.vy = 0;
+	}
+	if (this.x < 0) {
+		this.x = 0;
 	}
 }
 

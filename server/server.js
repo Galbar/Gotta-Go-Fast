@@ -10,7 +10,6 @@ var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
-var OBSTACLE_WIDTH = 100;
 
 function searchGame(idPlayer){
 	var assignat=false;
@@ -27,7 +26,7 @@ function searchGame(idPlayer){
 				}
 				for(var pl in games[game].players){
 					var sid = games[game].players[pl].id;
-					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names, OBSTACLE_WIDTH);
+					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names);
 				}
 			}
 		}

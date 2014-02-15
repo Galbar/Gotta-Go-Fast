@@ -4,22 +4,20 @@ var DESNIVELL_MAX = 300;
 
 function Obstacle (id, width, randomGenerator) {
     this.x = CANVAS_HEIGHT;
-    this.y = CANVAS_WIDTH;
     this.width = width;
     //Crec que amb aquest random anira be, s'ha de provar
     //this.height = Math.random()*(CANVAS_WIDTH-2*this.w)+this.w;
     this.color = "red";
     this.speed = 3;
-    this.sizeup = 0;
-    this.sizedown = CANVAS_HEIGHT;
+    this.sizeup = 10;
+    this.sizedown = CANVAS_HEIGHT-10;
     this.randomGenerator = randomGenerator;
     this.id=id;
 }
 
 Obstacle.prototype.generate = function(prev){
 
-    this.x = CANVAS_HEIGHT;
-    this.y = CANVAS_WIDTH;
+    this.x = CANVAS_WIDTH;
     var y_max_bloc_down = CANVAS_HEIGHT;
     var y_min_bloc_down = prev.sizedown-DESNIVELL_MAX;
     if(y_min_bloc_down<0+ESPAI_MIN_OBS) y_min_bloc_down = 0+ESPAI_MIN_OBS;
@@ -28,7 +26,7 @@ Obstacle.prototype.generate = function(prev){
     var y_min_bloc_up = 0;
     var y_max_bloc_up = this.sizedown-ESPAI_MIN_OBS;
     this.sizeup = Math.floor(this.randomGenerator()*(y_max_bloc_up-y_min_bloc_up+1)+y_min_bloc_up);
-    
+
 }
 
 Obstacle.prototype.update = function(dt, wspeed, obstacles) {
@@ -38,5 +36,9 @@ Obstacle.prototype.update = function(dt, wspeed, obstacles) {
 
 Obstacle.prototype.draw = function(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x,this.y,this.width,this.height);
+    ctx.fillRect(this.x,0,this.width,this.sizeup);
+    ctx.fillRect(this.x,this.sizedown,this.width,CANVAS_HEIGHT);
+    ctx.fillStyle = "black";
+    ctx.font = "10px Arial";
+    ctx.fillText(this.x+", "+this.sizeup+", "+this.sizedown,this.x,10);
 }
