@@ -11,6 +11,7 @@ function searchGame(idPlayer){
 		if(games[game].players.length < games[game].size){
 			assignat = true;
 			games[game].players[idPlayer] = idPlayer;
+			players[idPlayer].game=game;
 			if(games[game].players.length == games[game].size){
 				for(var pl in games[game].players){
 					io.sockets.sockets[pl].emit('match_found');
@@ -24,6 +25,20 @@ function searchGame(idPlayer){
 		newGame.players[idPlayer] = idPlayer;
 		assignat=true;
 		games[gameId] = newGame;
+		players[idPlayer].game=gameId;
+	}
+}
+
+function consultaGameReady(gameId){
+	for(var pl in games[gameId].players){
+		if(players[pl].ready === false) return false;
+	}
+	return true;
+}
+
+function startGame(gameId){
+	for(var pl in games[gameId].players){
+		io.sockets.sockets[pl].emit('match_start');
 	}
 }
 
@@ -42,7 +57,10 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('userReady', function () {
-
+		players[socket.id].ready=true;
+		if(consultaGameReady(players[socket.id].game)===true) {
+			startGame(players[socket.id].game);
+		}
 	});
 
 	socket.on('playerUpdate', function (playerData) {
