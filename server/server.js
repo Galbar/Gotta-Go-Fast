@@ -1,7 +1,6 @@
 var io = require('socket.io').listen(4242);
 io.set('log level', 1);
 
-var Player = require('./Player');
 var Lib = require('./lib');
 var Game = require('./game');
 var Player = require('./player');
@@ -43,7 +42,7 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('userReady', function () {
-		
+
 	});
 
 	socket.on('playerUpdate', function (playerData) {
