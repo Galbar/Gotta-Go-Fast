@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 3;
+var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -37,6 +37,13 @@ function searchGame(idPlayer){
 		newGame.players[0] = new Player(idPlayer);
 		assignat=true;
 		games[gameId] = newGame;
+		if (standardGameSize === 1) {
+			var seed = Date();
+			var sid = games[gameId].players[0].id;
+			var names=[];
+			names[0] = getRandomUsername();
+			io.sockets.sockets[sid].emit('matchFound', gameId, 0, games[gameId].players, seed, names);
+		};
 	}
 }
 
