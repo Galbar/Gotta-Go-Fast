@@ -18,8 +18,8 @@ function Player (id) {
 
 function command (c) {
     if (c === "U") this.vy = this.speedy;
-    else if (c === "A") this.vx = -this.speedx;
-    else if (c === "D") this.vx = this.speedx; 
+    else if (c === "L") this.vx = -this.speedx;
+    else if (c === "R") this.vx = this.speedx; 
 }
 
 Player.prototype.update = function(dt) {

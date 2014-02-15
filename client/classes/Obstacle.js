@@ -6,7 +6,6 @@ function Obstacle () {
     this.height = Math.random()*(canvas.width-2*this.w)+this.w;
     this.color = "red";
     this.speed = 3;
-
 }
 
 Obstacle.prototype.update = function(dt) {
