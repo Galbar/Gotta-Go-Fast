@@ -16,13 +16,13 @@ function Player (x,y,id) {
 
 Player.prototype.update = function(dt) {
     // W
-    if (e.keyCode === 87) this.y += -speed*dt;
+    if (e.keyCode === 87) this.y += -this.speed*dt;
     // A
-    if (e.keyCode === 65) this.x += -speed*dt;
+    if (e.keyCode === 65) this.x += -this.speed*dt;
     // S
-    if (e.keyCode === 83) this.y += speed*dt;
+    if (e.keyCode === 83) this.y += this.speed*dt;
     // D
-    if (e.keyCode === 68) this.x += speed*dt;
+    if (e.keyCode === 68) this.x += this.speed*dt;
 }
 
 Player.prototype.draw = function(ctx) {
