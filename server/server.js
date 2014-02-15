@@ -4,6 +4,7 @@ io.set('log level', 1);
 var Player = require('./Player');
 var Lib = require('./lib');
 var Game = require('./game');
+var Player = require('./player');
 
 function searchGame(idPlayer){
 	var assignat=false;
@@ -12,8 +13,8 @@ function searchGame(idPlayer){
 			assignat = true;
 			games[game].players[idPlayer] = idPlayer;
 			if(games[game].players.length == games[game].size){
-				for(var player in games[game].players){
-					io.sockets.sockets[player].emit('match_ready');
+				for(var pl in games[game].players){
+					io.sockets.sockets[pl].emit('match_found');
 				}
 			}
 		}
@@ -28,26 +29,21 @@ function searchGame(idPlayer){
 }
 
 var gameId = 0;
-var standardGameSize = 4;
+var standardGameSize = 1;
 var games = {};
+var players = {};
 
 io.sockets.on('connection', function (socket) {
 
-	// Envía la llista dels players actuals al nou jugador
-	/*for (var playerId in players) {
-		socket.emit('playerUpdate', players[playerId]);
-	}
-
-	// Crea el nou player i l'envia a tothom
-	var player = new Player(new Pos(0,0),socket.id);
-	players[socket.id] = player;
-	io.sockets.emit('playerUpdate',player);
-*/
-
-	socket.on('userConnected', function () {
+	socket.on('userRegister', function () {
+		var player = new Player(socket.id);
+		players[socket.id] = player;
 		socket.emit('ok_register');
 		searchGame(socket.id);
-		socket.emit('match_found');
+	});
+
+	socket.on('userReady', function () {
+		
 	});
 
 	socket.on('playerUpdate', function (playerData) {
