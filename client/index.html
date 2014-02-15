@@ -4,76 +4,34 @@
         body {
             margin: 0px;
             padding: 0px;
+            background-color: gray;
         }
     </style>
     
-    <script src="lib.js"></script>
     <script src="settings.js"></script>
+    <script src="seedrandom.js"></script>
     <script src="Keyboard.js"></script>
     <script src="stats.js"></script>
     <script src="requestAnimFrame.js"></script>
     <script src="socket.io.min.js"></script>
+    <script src="classes/Player.js"></script>
+    <script src="classes/Obstacle.js"></script>
+    <script src="classes/GameScene.js"></script>
+    <script src="classes/Game.js"></script>
 </head>
 <body>
 
 	<canvas id="gameCanvas"></canvas>
 
 	<script>
+        var game = new Game();
 
-		//stats thing
-		var stats = new Stats();
-        stats.setMode(0);
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = '0px';
-        stats.domElement.style.top = '0px';
-        document.body.appendChild(stats.domElement);
-        
-        //var username = prompt("Enter your nickname: ") || "Anonymous";
-        var socket = io.connect(SERVER_IP+':'+SERVER_PORT);
-        var canvas = document.getElementById("gameCanvas");
-        canvas.style.backgroundColor = 'black';
-        var context = canvas.getContext('2d');
-        var kb = new KeyboardJS(true);
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        
-        socket.on('connect', function () {
-            socket.id = socket.socket.sessionid;
-            socket.emit('userConnected');
-        });
-
-
-        function update (dt) {
-
+        function gameLoop () {
+            requestAnimFrame(gameLoop);
+            game._play();
         }
 
-        function draw (ctx) {
-            ctx.clearRect(0,0, canvas.width, canvas.height);
-        }
-
-        window.onresize = function () {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            render(context);
-        }
-        window.onresize();
-
-        var oldDate = +new Date();
-
-        function mainLoop () {
-            requestAnimFrame(mainLoop);
-            stats.begin();
-            var newDate = +new Date();
-            var delta = newDate - oldDate;
-            oldDate = newDate;
-            update(delta);
-            draw(context);
-            stats.end();
-        }
-        requestAnimFrame(mainLoop);
-
+        game.play();
     </script>
 
 </body>
