@@ -121,7 +121,7 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('userAction', function (c, game, pl) {
-		games[game].commands[pl] = c;
+		if(games[game].commands[pl] !== 'U') games[game].commands[pl] = c;
 	});
 
 	socket.on('sendGameStatus', function (game, pl, players) {
