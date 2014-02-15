@@ -58,4 +58,5 @@ Game.prototype.play = function() {
         this.socket.id = socket.socket.sessionid;
         this.socket.emit('register');
     });
+    requestAnimFrame(gameLoop);
 };
