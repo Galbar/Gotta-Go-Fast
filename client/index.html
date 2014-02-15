@@ -28,7 +28,7 @@
         stats.domElement.style.top = '0px';
         document.body.appendChild(stats.domElement);
         
-        var username = prompt("Enter your nickname: ") || "Anonymous";
+        //var username = prompt("Enter your nickname: ") || "Anonymous";
         var socket = io.connect(SERVER_IP+':'+SERVER_PORT);
         var canvas = document.getElementById("gameCanvas");
         canvas.style.backgroundColor = 'black';
@@ -41,7 +41,7 @@
         
         socket.on('connect', function () {
             socket.id = socket.socket.sessionid;
-            socket.emit('userConnected', username);
+            socket.emit('userConnected');
         });
 
 
