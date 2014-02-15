@@ -9,6 +9,8 @@ var gameId = 0;
 var standardGameSize = 2;
 var games = [];
 
+var DELTA_TIME = 50;
+
 function searchGame(idPlayer){
 	var assignat=false;
 	for(var game in games){
@@ -43,21 +45,50 @@ function consultaGameReady(game){
 
 function startGame(game){
 	for(var pl in game.players){
+		game.players[pl].is_active=true;
 		io.sockets.sockets[game.players[pl].id].emit('matchStart');
 	}
 	game.is_active=true;
+}
+
+function retrieveGameStatus (game) {
+	for (var pl in game.players) {
+		io.sockets.sockets[game.players[pl].id].emit('retrieveGameStatus');
+	}
+}
+
+function fixGameStatus (game) {
+	var fixed_status = [];
+	for (var pl in game.client_status) {
+		fixed_status[pl] = { x:0, y:0 };
+	}
+	for (var pl in game.client_status) {
+		for (var pl2 in game.client_status) {
+			fixed_status[pl].x += game.client_status[pl2][pl].x;
+			fixed_status[pl].y += game.client_status[pl2][pl].y;
+		}
+		fixed_status[pl].x /= game.size;
+		fixed_status[pl].y /= game.size;
+	}
+	io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
 }
 
 function sendAllGameCommands () {
 	for (var game in games) {
 		if (games[game].is_active) {
 			for (var pl in games[game].players) {
-				io.sockets.sockets[games[game].players[pl].id].emit('updateDeltatime', 30);
-				io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands);
+				if (games[game].players[pl].is_active) {
+					io.sockets.sockets[games[game].players[pl].id].emit('updateDeltatime', DELTA_TIME);
+					io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands);
+				}
 			}
 			for (var it in games[game].commands) {
 				games[game].commands[it] = "S";
 			};
+			games[game].turns++;
+			if (games[game].turns%10) {
+				retrieveGameStatus(games[game]);
+			}
 		}
 	}
 }
@@ -80,14 +111,23 @@ io.sockets.on('connection', function (socket) {
 		games[game].commands[pl] = c;
 	});
 
+	socket.on('sendGameStatus', function (game, pl, players) {
+        console.log('sendGameStatus');
+		games[game].client_status[pl] = players;
+		games[game].client_status_retrieved[pl] = true;
+		var done = true;
+		for (var it in games[game].client_status_retrieved) {
+			done = (done && games[game].client_status_retrieved[it]);
+		}
+		if (done) fixGameStatus(games[game]);
+	});
+
 	socket.on('disconnect', function () {
-		/*
-		console.log(socket.id + " has disconnected from the server!");
+		/*console.log(socket.id + " has disconnected from the server!");
 		delete players[socket.id];
-		io.sockets.emit('playerDisconnect', socket.id);
-		*/
+		io.sockets.emit('playerDisconnect', socket.id);*/
 	});
 
 });
 
-setInterval(sendAllGameCommands, 30);
+setInterval(sendAllGameCommands, DELTA_TIME);
