@@ -70,8 +70,8 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.players) this.players[it].update(deltatime);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime);
+    for (var it in this.players) this.players[it].update(deltatime,-200,[]);
 };
 
 GameScene.prototype.draw = function(context) {

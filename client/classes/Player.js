@@ -11,7 +11,7 @@ function Player (id, n) {
 	this.color = '#'+Math.floor(n*16777215).toString(16);
 	this.vx = 0;
 	this.vy = 0;
-	this.speedx = 250;
+	this.speedx = 300;
 	this.speedy = -500;
 	this.is_active = false;
 	//this.image = userIMG;
@@ -25,8 +25,8 @@ Player.prototype.command = function (c) {
 	//else if (c === 'S') this.vx = 0;
 }
 
-Player.prototype.update = function(dt) {
-	this.x += this.vx*dt;
+Player.prototype.update = function(dt, wspeed, obstacles) {
+	this.x += (this.vx+wspeed)*dt;
 	this.y += this.vy*dt;
 
 	this.vy += 500*dt;
