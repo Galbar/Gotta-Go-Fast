@@ -5,12 +5,12 @@ function MatchMakingScene (socket) {
     this.ok_register = false;
 
     var self = this;
-    this.socket.on('ok_register', function () {
+    this.socket.on('okRegister', function () {
         self.ok_register = true;
     });
 
-    this.socket.on('matchFound', function () {
-        self.match_found = true; 
+    this.socket.on('matchFound', function (match_id, player_id) {
+        self.match_found = true;
     });
 }
 

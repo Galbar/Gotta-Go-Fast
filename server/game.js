@@ -1,6 +1,6 @@
 function Game (size) {
 	this.size=size;
-	this.players= {};
+	this.players= [];
 }
 
 module.exports = Game;
