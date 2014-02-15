@@ -74,7 +74,9 @@ function fixGameStatus (game) {
 		fixed_status[pl].x /= game.size;
 		fixed_status[pl].y /= game.size;
 	}
-	io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
+    for (var pl in game.players) {
+		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
+	}
 }
 
 function sendAllGameCommands () {
@@ -90,7 +92,7 @@ function sendAllGameCommands () {
 				games[game].commands[it] = "S";
 			};
 			games[game].turns++;
-			if (games[game].turns%10) {
+			if (games[game].turns%2000) {
 				retrieveGameStatus(games[game]);
 			}
 		}
@@ -116,7 +118,6 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('sendGameStatus', function (game, pl, players) {
-        console.log('sendGameStatus');
 		games[game].client_status[pl] = players;
 		games[game].client_status_retrieved[pl] = true;
 		var done = true;
