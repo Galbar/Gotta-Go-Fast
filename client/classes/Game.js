@@ -4,9 +4,12 @@ var GAME_SCENE = 2;
 
 function Game () {
     // Control stuff
-    this.kb = new KeyboardJS(true);
     this.clock = new Date();
-    this.socket;
+    this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
+    var self = this;
+    this.socket.on('connect', function () {
+        self.socket.id = self.socket.socket.sessionid;
+    });
 
     // Canvas stuff
     this.canvas = document.getElementById("gameCanvas");
@@ -64,12 +67,9 @@ Game.prototype._play = function() {
 
 Game.prototype.play = function() {
     // Do some stuff
-    this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
-    this.socket.on('connect', function () {
-        this.socket.id = socket.socket.sessionid;
-    });
     this.current_scene = MATCH_MAKING_SCENE;
     this.scenes[MATCH_MAKING_SCENE] = new MatchMakingScene(this.socket);
     this.scenes[GAME_SCENE] = new GameScene(this.socket);
+    var self = this;
     requestAnimFrame(gameLoop);
 };
