@@ -32,7 +32,7 @@ function GameScene (socket) {
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players);
     });
 
-    this.socket.on('matchFound', function (match_id, player_id, players, seed) {
+    this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
         self.match_id = match_id;
         self.player_id = player_id;
 
@@ -44,6 +44,7 @@ function GameScene (socket) {
             self.players[it].x = x_pos;
             self.players[it].y = 300;
             self.players[it].is_active = true;
+            self.players[it].name = names[it];
             x_pos += 60;
         };
 

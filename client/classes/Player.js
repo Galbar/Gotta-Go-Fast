@@ -41,5 +41,8 @@ Player.prototype.draw = function(ctx) {
 	if (this.is_active) {
 		ctx.fillStyle = this.color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
+		ctx.fillStyle = "black";
+		ctx.font = "10px Arial";
+		ctx.fillText(this.name,this.x-20,this.y-10);
 	}
 }
