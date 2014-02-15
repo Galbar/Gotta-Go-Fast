@@ -1,3 +1,7 @@
+var MAIN_SCENE = 0;
+var MATCH_MAKING_SCENE = 1;
+var GAME_SCENE = 2;
+
 function Game () {
     // Control stuff
     this.kb = new KeyboardJS(true);
@@ -12,6 +16,8 @@ function Game () {
     this.canvas.style.display = "block";
     this.canvas.style.width = CANVAS_WIDTH+"px";
     this.canvas.style.height = CANVAS_HEIGHT+"px";
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
     this.canvas.style.margin = "auto";
     
     // Stats stuff
@@ -23,7 +29,8 @@ function Game () {
     document.body.appendChild(this.stats.domElement);
 
     // Game scenes
-    //this.game_scene = new GameScene();
+    this.scenes = [];
+    this.current_scene;
 
     // Init stuff
     window.onresize = function (canvas) {
@@ -34,12 +41,16 @@ function Game () {
 }
 
 Game.prototype.update = function(deltatime) {
-    //this.game_scene.update(deltatime);
+    if (this.scenes[this.current_scene].update(deltatime))
+    {
+        this.current_scene++;
+        this.current_scene %= 3;
+    }
 };
 
 Game.prototype.draw = function() {
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
-    //this.game_scene.draw(this.context);
+    this.scenes[this.current_scene].draw(this.context);
 };
 
 Game.prototype._play = function() {
@@ -56,7 +67,9 @@ Game.prototype.play = function() {
     this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
     this.socket.on('connect', function () {
         this.socket.id = socket.socket.sessionid;
-        this.socket.emit('register');
     });
+    this.current_scene = MATCH_MAKING_SCENE;
+    this.scenes[MATCH_MAKING_SCENE] = new MatchMakingScene(this.socket);
+    this.scenes[GAME_SCENE] = new GameScene(this.socket);
     requestAnimFrame(gameLoop);
 };
