@@ -25,6 +25,7 @@ function GameScene (socket) {
             self.players[it] = new Player(players[it].id, self.randomGenerator());
             self.players[it].x = x_pos;
             self.players[it].y = 300;
+            self.players[it].is_active = true;
             x_pos += 60;
         };
 
