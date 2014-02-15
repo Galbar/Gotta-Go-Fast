@@ -24,14 +24,13 @@
 
 	<script>
         var game = new Game();
-        game.play();
-        
+
         function gameLoop () {
             requestAnimFrame(gameLoop);
             game._play();
         }
-        
-        requestAnimFrame(gameLoop);
+
+        game.play();
     </script>
 
 </body>
