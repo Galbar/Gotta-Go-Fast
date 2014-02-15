@@ -31,9 +31,35 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 
 	this.vy += 500*dt;
 
-	if (this.y > CANVAS_HEIGHT-this.height) {
-		this.y = CANVAS_HEIGHT-this.height;
-		this.vy = 0;
+	var obs1 = undefined;
+	var obs2 = undefined;
+	for (var it in obstacles) {
+		if (obs1 !== undefined && obs2 !== undefined) break;
+		var obs = obstacles[it];
+		if (obs1 === undefined && this.x >= obs.x && this.x <= obs.x+obs.width) {
+			obs1 = obs;
+		}
+		if (obs2 === undefined && this.x+this.width >= obs.x && this.x+this.width <= obs.x+obs.width) {
+			obs2 = obs;
+		}
+	}
+
+	if (obs1.sizeup > this.y) {
+		// Colision arriba a la izquierda
+		this.x = obs1.sizeup;
+	}
+	else if (obs1.sizedown < this.y+this.height) {
+		// Colision abajo a la izquierda
+		this.x = obs1.sizedown-this.height;
+	}
+
+	if (obs2.sizeup > this.y) {
+		// Colision arriba a la derecha
+		this.x = obs2.sizeup;
+	}
+	else if (obs2.sizedown < this.y+this.height) {
+		// Colision abajo a la derecha
+		this.x = obs2.sizedown-this.height;
 	}
 }
 
@@ -45,4 +71,8 @@ Player.prototype.draw = function(ctx) {
 		ctx.font = "10px Arial";
 		ctx.fillText(this.name,this.x-20,this.y-10);
 	}
+}
+
+Player.prototype.collision = function(obstacle) {
+
 }

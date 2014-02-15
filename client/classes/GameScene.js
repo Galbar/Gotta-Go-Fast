@@ -30,7 +30,7 @@ function GameScene (socket) {
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players);
     });
 
-    this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
+    this.socket.on('matchFound', function (match_id, player_id, players, seed, names, obs_width) {
         self.match_id = match_id;
         self.player_id = player_id;
 
@@ -45,6 +45,12 @@ function GameScene (socket) {
             self.players[it].name = names[it];
             x_pos += 60;
         };
+
+        var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
+
+        for (var i = 0; i < n_obs; i++) {
+            self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
+        }
 
         self.socket.emit('userReady', self.match_id, self.player_id);
     });
@@ -71,7 +77,7 @@ GameScene.prototype.update = function(deltatime) {
         this.sendCommand("R");
 
     for (var it in this.obstacles) this.obstacles[it].update(deltatime);
-    for (var it in this.players) this.players[it].update(deltatime,-200,[]);
+    for (var it in this.players) this.players[it].update(deltatime,-200,this.obstacles);
 };
 
 GameScene.prototype.draw = function(context) {
