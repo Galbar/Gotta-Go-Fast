@@ -14,7 +14,29 @@ function Player (x,y,id) {
 	//this.image = userIMG;
 }
 
+function command (c) {
+    if (c == "U") {
+        this.vy = this.speedy;
+    }
+    else {
+
+    };
+}
+
+
 Player.prototype.update = function(dt) {
+    this.x += this.vx*dt;
+    this.y += this.vy*dt;
+    if (vy > 0) {
+        vy += -3*dt;
+    };
+    if (vy < 0) {
+        vy = 0;
+    };
+    if (this.y < 0) {
+        this.y = 0;
+    };
+
     // W
     if (e.keyCode === 87) this.y += -this.speed*dt;
     // A
