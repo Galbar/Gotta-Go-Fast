@@ -1,7 +1,7 @@
 var io = require('socket.io').listen(4242);
 io.set('log level', 1);
 
-var Lib = require('./lib');
+var getRandomUsername = require('./lib');
 var Game = require('./game');
 var Player = require('./player');
 
@@ -9,7 +9,7 @@ var gameId = 0;
 var standardGameSize = 2;
 var games = [];
 
-var DELTA_TIME = 50;
+var DELTA_TIME = 30;
 
 function searchGame(idPlayer){
 	var assignat=false;
@@ -20,9 +20,13 @@ function searchGame(idPlayer){
 			games[game].players[games[game].players.length] = new Player(idPlayer);
 			if(games[game].players.length == games[game].size){
 				var seed = Date();
+				var names=[];
+				for(var pl in games[game].players){
+					names[pl] = getRandomUsername();
+				}
 				for(var pl in games[game].players){
 					var sid = games[game].players[pl].id;
-					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed);
+					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names);
 				}
 			}
 		}
