@@ -29,12 +29,20 @@ function getRandomUsername () {
 	names[24] = "Flor";
 	names[25] = "Skyler";
 	names[26] = "Claudia";
-	names[27] = "Lapiz";
+	names[27] = "Bruce";
 	names[28] = "Nicolas";
 	names[29] = "Nat";
 	names[30] = "Torra";
 	names[31] = "Pringles";
 	names[32] = "Haggard";
+	names[33] = "Douglas";
+	names[34] = "Edna";
+	names[35] = "Glenn";
+	names[36] = "Iona";
+	names[37] = "Kenny";
+	names[38] = "Lindsay";
+	names[39] = "Bill";
+	names[40] = "Max";
 
 	var surname1 = new Array();
 	surname1[0] = " Russel";
@@ -68,6 +76,21 @@ function getRandomUsername () {
 	surname1[28] = " Delgado";
 	surname1[29] = " Guerrero";
 	surname1[30] = " Milans";
+	surname1[31] = " Moriko";
+	surname1[32] = " Natsumi";
+	surname1[33] = " Noriko";
+	surname1[34] = " Ken'ichi";
+	surname1[35] = " Katsuo";
+	surname1[36] = " Albrektson";
+	surname1[37] = " Christoffersen";
+	surname1[38] = " Guldbrandsen";
+	surname1[39] = " Ostberg";
+	surname1[40] = " Smith";
+	surname1[41] = " Taylor";
+	surname1[42] = " Williams";
+	surname1[43] = " Ryan";
+	surname1[44] = " Harris";
+
 
 	var surname2 = new Array();
 	surname2[0] = " Walker";
@@ -96,6 +119,20 @@ function getRandomUsername () {
 	surname2[23] = " Pinkman";
 	surname2[24] = " Torramilans";
 	surname2[25] = " Torramilans"; 
+	surname2[26] = " Xperia";
+	surname2[27] = " Kingston";
+	surname2[28] = " Chinatsu";
+	surname2[29] = " Daisuke";
+	surname2[30] = " Haruka";
+	surname2[31] = " Hideyoshi";
+	surname2[32] = " Hotaru";
+	surname2[33] = " Ichiro";
+	surname2[34] = " Kaito";
+	surname2[35] = " Kazuki";
+	surname2[36] = " Kouki"; 
+	surname2[37] = " Miyako";
+	surname2[38] = " Aveskamp";
+	surname2[39] = " Ackerman";
 
 	return names[Math.floor(Math.random()*33)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
 }
