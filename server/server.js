@@ -11,7 +11,7 @@ var games = [];
 
 var DELTA_TIME = 30;
 
-var ESPAI_MIN_OBS = 400;
+var ESPAI_MIN_OBS = 350;
 var DESNIVELL_MAX = 200;
 var CANVAS_WIDTH = 800;
 var CANVAS_HEIGHT = 500;
@@ -59,7 +59,7 @@ function searchGame(idPlayer){
 			if(games[game].players.length == games[game].size){
 				var seed = Date();
 				var names=[];
-				var list_obstacles = generateObstacles(100);
+				var list_obstacles = generateObstacles(5000);
 				for(var pl in games[game].players){
 					names[pl] = getRandomUsername();
 				}
@@ -83,7 +83,7 @@ function searchGame(idPlayer){
 			var sid = games[gameId].players[0].id;
 			var names=[];
 			names[0] = getRandomUsername();
-			var list_obstacles = generateObstacles(100);
+			var list_obstacles = generateObstacles(5000);
 			io.sockets.sockets[sid].emit('matchFound', gameId, 0, games[gameId].players, seed, names, list_obstacles);
 		};
 	}

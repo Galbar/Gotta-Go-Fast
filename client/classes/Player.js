@@ -25,10 +25,10 @@ Player.prototype.command = function (c) {
 }
 
 Player.prototype.update = function(dt, wspeed, obstacles) {
-	this.x += (this.vx+wspeed)*dt;
-	this.y += this.vy*dt;
+	var new_x = this.x + (this.vx+wspeed)*dt;
+	var new_y = this.y + this.vy*dt;
+	var new_vy = this.vy + 498*dt;
 
-	this.vy += 498*dt;
 
 	var obs1 = undefined;
 	var obs2 = undefined;
@@ -43,56 +43,61 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 		}
 	}
 
-	var dist_y;
-	var pos_y;
-	var vel_y = 0.001;
-	var dist_x;
-	if (obs1 !== undefined) {
-		if (obs1.sizeup > this.y) {
-			// Colision arriba a la izquierda
-			dist_y = Math.abs(this.y - obs1.sizeup);
-			pos_y = obs1.sizeup;
-		}
-		else if (obs1.sizedown < this.y+this.height) {
-			// Colision abajo a la izquierda
-			dist_y = Math.abs(obs1.sizedown-this.height);
-			pos_y = obs1.sizedown-this.height;
-			vel_y = 0;
-		}
-	}
-
+	// obs1 y obs2
+	var id_r;
+	var id_l;
 	if (obs2 !== undefined) {
-		if (obs2.sizeup > this.y) {
-			// Colision arriba a la derecha
-			if (dist_y === undefined || dist_y > Math.abs(this.y - obs2.sizeup)) {
-				dist_y = Math.abs(this.y - obs2.sizeup);
-				pos_y = obs2.sizeup;
-			}
-		}
-		else if (obs2.sizedown < this.y+this.height) {
-			// Colision abajo a la derecha
-			if (dist_y === undefined || dist_y > Math.abs(this.y - obs2.sizeup)) {
-				dist_y = Math.abs(obs2.sizedown-this.height);
-				pos_y = obs2.sizedown-this.height;
-				vel_y = 0;
-			}
-		}
-		if (pos_y !== undefined) {
-			this.y = pos_y;
-			this.vy = vel_y;
-		}
+		id_r = (obs2.id+1)%obstacles.length;
+	}
+	if (obs1 !== undefined) {
+		id_l = (obs1.id-1)%obstacles.length;
+		if (id_l < 0) id_l = obstacles.length-1;
+	}
+	if (obs1 !== undefined && new_x < obs1.x && 
+		(new_y+this.height > obstacles[id_l].sizedown || new_y < obstacles[id_l].sizeup)) {
+		new_x = obs1.x;
+	}
+	if (obs2 !== undefined && new_x+this.width > obs2.x+obs2.width+(wspeed-1)*dt && 
+		(new_y+this.height > obstacles[id_r].sizedown || new_y < obstacles[id_r].sizeup)) {
+		new_x = obs2.x+obs2.width-this.width+(wspeed-1)*dt;
+	}
+	if (obs1 !== undefined && new_y+this.height > obs1.sizedown && this.x > obs1.x && this.x < obs1.x+obs1.width) {
+		new_y = obs1.sizedown-this.height;
+		new_vy = 0;
+	}
+	if (obs2 !== undefined && new_y+this.height > obs2.sizedown && this.x+this.width > obs2.x && this.x+this.width < obs2.x+obs2.width) {
+		new_y = obs2.sizedown-this.height;
+		new_vy = 0;
+	}
+	if (obs1 !== undefined && new_y < obs1.sizeup && this.x > obs1.x && this.x < obs1.x+obs1.width) {
+		new_y = obs1.sizeup;
+		new_vy = 0.001;
+	}
+	if (obs2 !== undefined && new_y < obs2.sizeup && this.x+this.width > obs2.x && this.x+this.width < obs2.x+obs2.width) {
+		new_y = obs2.sizeup;
+		new_vy = 0.001;
 	}
 
-	if (this.y > CANVAS_HEIGHT-this.height) {
-		this.y = CANVAS_HEIGHT-this.height;
-		this.vy = 0;
+	if (new_x < 0) {
+		new_x = 0.1;
 	}
-	if (this.x < 0) {
-		this.x = 0;
+
+	if (new_y > CANVAS_HEIGHT-this.height) {
+		new_y = CANVAS_HEIGHT-this.height;
+		new_vy = 0;
 	}
-	if (this.x > CANVAS_WIDTH-this.width) {
-		this.x = CANVAS_WIDTH-this.width;
+	if (new_y < 0) {
+		new_y = 0;
+		new_vy = 0.001;
 	}
+
+	if (new_x > CANVAS_WIDTH-this.width) {
+		new_x = CANVAS_WIDTH-this.width;
+	}
+
+	this.x = new_x;
+	this.y = new_y;
+	this.vy = new_vy;
 }
 
 Player.prototype.draw = function(ctx) {
