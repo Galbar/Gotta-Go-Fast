@@ -68,10 +68,11 @@ function GameScene (socket) {
         self.socket.emit('userReady', self.match_id, self.player_id);
     });
 
-    this.socket.on('turnCommands', function (commands) {
+    this.socket.on('turnCommands', function (commands, seed) {
         for (var it in commands) {
             self.players[it].command(commands[it]);
         };
+        self.randomGenerator = new Math.seedrandom(seed);
     });
 }
 

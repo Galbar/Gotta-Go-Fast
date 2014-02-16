@@ -103,6 +103,7 @@ function sendAllGameCommands () {
 			for (var pl in games[game].players) {
 				if (games[game].players[pl].is_active) {
 					io.sockets.sockets[games[game].players[pl].id].emit('updateDeltatime', DELTA_TIME);
+					var seed = '' + Date() + games[game].turns;
 					io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands);
 				}
 			}
