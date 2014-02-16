@@ -109,7 +109,6 @@ GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
-    context.font = "normal 18px Arial";
     for (var it in this.obstacles) this.obstacles[it].draw(context);
     for (var it in this.players) {
         this.players[it].draw(context);
@@ -119,8 +118,14 @@ GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(1, 1, 198, (20*this.players.length)+8);
     context.fillStyle = "black";
-    for (var it in this.players) {
+    for (var it = 0; it < this.players.length; it++) {
+        context.font = "bold 12px Arial";
         context.fillStyle = this.players[it].color;
-        context.fillText(this.players[it].name,10,(20*it)+18);
+        context.fillText(this.players[it].name,15,(15*it)+18);
+        if (it === this.player_id)
+        {
+            context.fillStyle = "red";
+            context.fillText(">",5,(20*it)+18);
+        }
     }
 };
