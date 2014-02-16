@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 1;
+var standardGameSize = 3;
 var games = [];
 
 var DELTA_TIME = 30;
