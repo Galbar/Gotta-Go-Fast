@@ -35,7 +35,7 @@ function GameScene (socket) {
         };
         var i = 0;
         while (self.obstacles[i].x < -50) i++;
-        var obs = { id: i, x: self.obstacles[i].x };
+        var obs = { id: 0, x: self.obstacles[0].x };
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players, obs);
     });
 
@@ -54,7 +54,7 @@ function GameScene (socket) {
             o.x = i*obs_width;
             o.sizeup = 10;
             o.sizedown = CANVAS_HEIGHT-10;
-            self.obstacles.push (o);
+            self.obstacles.push(o);
         }
 
         for (var it in players) {
