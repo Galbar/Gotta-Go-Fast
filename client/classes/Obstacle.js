@@ -2,7 +2,7 @@
 var ESPAI_MIN_OBS = 100;
 var DESNIVELL_MAX = 200;
 
-function Obstacle (id, width, randomGenerator) {
+function Obstacle (id, width, scene) {
     this.x = CANVAS_HEIGHT;
     this.width = width;
     //Crec que amb aquest random anira be, s'ha de provar
@@ -10,16 +10,20 @@ function Obstacle (id, width, randomGenerator) {
     this.speed = 3;
     this.sizeup = 10;
     this.sizedown = CANVAS_HEIGHT-10;
-    this.randomGenerator = randomGenerator;
+    this.parent = scene;
     this.id=id;
-    this.color = '#'+Math.floor(randomGenerator()*16777215).toString(16);
+    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
+    while (this.color === '#FFFFFF')
+    {
+        this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);   
+    }
 }
 
 Obstacle.prototype.generate = function(prev){
 
     this.x = CANVAS_WIDTH;
-    this.color = '#'+Math.floor(this.randomGenerator()*16777215).toString(16);
-    var factor =  this.randomGenerator();
+    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
+    var factor =  this.parent.randomGenerator();
     this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
     if (this.sizedown < 10+ESPAI_MIN_OBS) this.sizedown = 10+ESPAI_MIN_OBS;
     if (this.sizedown > CANVAS_HEIGHT-10) this.sizedown = CANVAS_HEIGHT-10;

@@ -41,7 +41,7 @@ function GameScene (socket) {
         var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
 
         for (var i = 0; i < n_obs; i++) {
-            self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
+            self.obstacles[i] = new Obstacle(i, obs_width, self);
             self.obstacles[i].x = i*obs_width;
             console.log(self.obstacles[i].x);
         }
@@ -89,9 +89,12 @@ GameScene.prototype.draw = function(context) {
     if (!this.match_start) {return;};
     context.font = "10px Arial";
     for (var it in this.obstacles) this.obstacles[it].draw(context);
-    context.fillRect(590, 0, CANVAS_WIDTH, (20*this.players.length)+20);
     for (var it in this.players) {
         this.players[it].draw(context);
+    }
+    context.fillStyle = "black";
+    context.fillRect(590, 0, CANVAS_WIDTH, (20*this.players.length)+20);
+    for (var it in this.players) {
         context.fillStyle = this.players[it].color;
         context.fillText(this.players[it].name,600,(20*it)+20);
     }

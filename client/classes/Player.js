@@ -9,6 +9,10 @@ function Player (id, n) {
 	this.width = 50;
 	this.height = 50;
 	this.color = '#'+Math.floor(n*16777215).toString(16);
+	while (this.color === '#FFFFFF')
+	{
+		this.color = '#'+Math.floor(n*16777215).toString(16);	
+	}
 	this.vx = 0;
 	this.vy = 0;
 	this.speedx = 300;
@@ -97,8 +101,5 @@ Player.prototype.draw = function(ctx) {
 	if (this.is_active) {
 		ctx.fillStyle = this.color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
-		ctx.fillStyle = "black";
-		ctx.font = "10px Arial";
-		ctx.fillText(this.name,this.x-20,this.y-10);
 	}
 }
