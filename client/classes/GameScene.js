@@ -17,7 +17,7 @@ function GameScene (socket) {
         self.match_start = true; 
     });
 
-    this.socket.on('updateGameStatus', function (new_status, new_obs) {
+    this.socket.on('updateGameStatus', function (new_status, new_obs, obs_it) {
         for (var pl in self.players) {
             self.players[pl].x = new_status[pl].x;
             self.players[pl].y = new_status[pl].y;
@@ -28,6 +28,7 @@ function GameScene (socket) {
             if (self.obstacles[id].x > CANVAS_WIDTH)
                 self.obstacles[id].x -= self.obstacles.length*100;
         }
+        self.future_obstacles.iterator = obs_it;
     });
 
     this.socket.on('retrieveGameStatus', function() {
@@ -39,7 +40,7 @@ function GameScene (socket) {
         };
         var i = 0;
         while (self.obstacles[i].x < -50) i++;
-        var obs = { id: i, x: self.obstacles[i].x };
+        var obs = { id: i, x: self.obstacles[i].x , it: self.future_obstacles.iterator};
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players, obs);
     });
 

@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 1;
+var standardGameSize = 2;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -59,13 +59,13 @@ function searchGame(idPlayer){
 			if(games[game].players.length == games[game].size){
 				var seed = Date();
 				var names=[];
+				var list_obstacles = generateObstacles(100);
 				for(var pl in games[game].players){
 					names[pl] = getRandomUsername();
 				}
 				for(var pl in games[game].players){
 					var sid = games[game].players[pl].id;
 
-					var list_obstacles = generateObstacles(100000);
 
 					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names, list_obstacles);
 				}
@@ -83,7 +83,7 @@ function searchGame(idPlayer){
 			var sid = games[gameId].players[0].id;
 			var names=[];
 			names[0] = getRandomUsername();
-			var list_obstacles = generateObstacles(100000);
+			var list_obstacles = generateObstacles(100);
 			io.sockets.sockets[sid].emit('matchFound', gameId, 0, games[gameId].players, seed, names, list_obstacles);
 		};
 	}
@@ -124,7 +124,6 @@ function fixGameStatus (game) {
 		fixed_status[pl].y /= game.size;
 	}
 
-	var obs_ref_id = game.client_status.obs[0].id;
 	var fixed_obs = {
 		id: 0,
 		x: 0
@@ -133,9 +132,9 @@ function fixGameStatus (game) {
 		fixed_obs.x += game.client_status.obs[id].x-(game.client_status.obs[id].id*100);
 	}
 	fixed_obs.x /= game.client_status.obs.length;
-
+	fixed_it = game.client_status.obs[0].it;
 	for (var pl in game.players) {
-		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs);
+		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs, fixed_it);
 	}
 }
 
