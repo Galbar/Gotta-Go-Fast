@@ -43,6 +43,13 @@ function getRandomUsername () {
 	names[38] = "Lindsay";
 	names[39] = "Bill";
 	names[40] = "Max";
+	names[41] = "Balaghi";
+	names[42] = "Aluna";
+	names[43] = "Nacho";
+	names[44] = "Marta";
+	names[45] = "Dario";
+	names[46] = "Gisela";
+	names[47] = "Laia";
 
 	var surname1 = new Array();
 	surname1[0] = " Russel";
@@ -90,6 +97,8 @@ function getRandomUsername () {
 	surname1[42] = " Williams";
 	surname1[43] = " Ryan";
 	surname1[44] = " Harris";
+	surname1[45] = " Sattler";
+	surname1[46] = " Minikiwi";
 
 
 	var surname2 = new Array();
@@ -119,7 +128,7 @@ function getRandomUsername () {
 	surname2[23] = " Pinkman";
 	surname2[24] = " Torramilans";
 	surname2[25] = " Torramilans"; 
-	surname2[26] = " Xperia";
+	surname2[26] = " Arenas";
 	surname2[27] = " Kingston";
 	surname2[28] = " Chinatsu";
 	surname2[29] = " Daisuke";
@@ -133,8 +142,12 @@ function getRandomUsername () {
 	surname2[37] = " Miyako";
 	surname2[38] = " Aveskamp";
 	surname2[39] = " Ackerman";
+	surname2[40] = " Ling";
+	surname2[41] = " March";
+	surname2[42] = " Picazo";
+	surname2[43] = " Casals";
 
-	return names[Math.floor(Math.random()*41)] + surname1[Math.floor(Math.random()*45)] + surname2[Math.floor(Math.random()*40)];
+	return names[Math.floor(Math.random()*48)] + surname1[Math.floor(Math.random()*47)] + surname2[Math.floor(Math.random()*44)];
 }
 
 module.exports = getRandomUsername;
