@@ -10,14 +10,13 @@ function Obstacle (id, width, scene) {
     this.speed = 3;
     this.sizeup = 10;
     this.sizedown = CANVAS_HEIGHT-10;
-    this.parent = scene;
     this.id=id;
-    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
+    this.color = '#'+Math.floor(randomGenerator()*16777215).toString(16);
 }
 
-Obstacle.prototype.generate = function(prev, dx){
+Obstacle.prototype.generate = function(prev, dx, n){
     this.x = CANVAS_WIDTH+dx;
-    var factor =  this.parent.randomGenerator();
+    var factor =  randomGenerator();
     this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
     if (this.sizedown < 10+ESPAI_MIN_OBS) this.sizedown = 10+ESPAI_MIN_OBS;
     if (this.sizedown > CANVAS_HEIGHT-10) this.sizedown = CANVAS_HEIGHT-10;
