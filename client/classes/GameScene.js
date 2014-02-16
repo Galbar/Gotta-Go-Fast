@@ -28,7 +28,7 @@ function GameScene (socket) {
             if (self.obstacles[id].x > CANVAS_WIDTH)
                 self.obstacles[id].x -= self.obstacles.length*100;
         }
-        self.future_obstacles.iterator = obs_it;
+        //self.future_obstacles.iterator = obs_it;
     });
 
     this.socket.on('retrieveGameStatus', function() {
