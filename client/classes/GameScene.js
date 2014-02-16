@@ -114,9 +114,9 @@ GameScene.prototype.draw = function(context) {
         this.players[it].draw(context);
     }
     context.fillStyle = "black";
-    context.fillRect(0, 0, 200, (15*this.players.length)+11);
+    context.fillRect(0, 0, 250, (15*this.players.length)+11);
     context.fillStyle = "white";
-    context.fillRect(1, 1, 198, (15*this.players.length)+9);
+    context.fillRect(1, 1, 248, (15*this.players.length)+9);
     context.fillStyle = "black";
     for (var it = 0; it < this.players.length; it++) {
         context.font = "bold 12px Arial";
