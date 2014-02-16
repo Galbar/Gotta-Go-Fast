@@ -33,7 +33,7 @@ function GameScene (socket) {
     this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
         self.match_id = match_id;
         self.player_id = player_id;
-        var obs_width = 100;
+        var obs_width = 50;
         // Init players
         var x_pos = 50;
         self.randomGenerator = new Math.seedrandom(seed);
@@ -43,8 +43,8 @@ function GameScene (socket) {
         for (var i = 0; i < n_obs; i++) {
             self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
             self.obstacles[i].x = i*obs_width;
+            console.log(self.obstacles[i].x);
         }
-        console.log(self.obstacles.length);
 
         for (var it in players) {
             self.players[it] = new Player(players[it].id, self.randomGenerator());
@@ -79,14 +79,14 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -200, this.obstacles);
-    for (var it in this.players) this.players[it].update(deltatime,-200,this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -50, this.obstacles);
+    for (var it in this.players) this.players[it].update(deltatime,-50,this.obstacles);
 };
 
 GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
-    for (var it in this.players) this.players[it].draw(context);
     for (var it in this.obstacles) this.obstacles[it].draw(context);
+    for (var it in this.players) this.players[it].draw(context);
 };
