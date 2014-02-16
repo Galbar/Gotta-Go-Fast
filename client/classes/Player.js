@@ -102,7 +102,3 @@ Player.prototype.draw = function(ctx) {
 		ctx.fillText(this.name,this.x-20,this.y-10);
 	}
 }
-
-Player.prototype.collision = function(obstacle) {
-
-}
