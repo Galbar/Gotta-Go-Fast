@@ -53,9 +53,9 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 		id_l = (obs1.id-1)%obstacles.length;
 		if (id_l < 0) id_l = obstacles.length-1;
 	}
-	if (obs1 !== undefined && new_x < obs1.x && 
+	if (obs1 !== undefined && new_x < obs1.x+(wspeed-1)*dt && 
 		(new_y+this.height > obstacles[id_l].sizedown || new_y < obstacles[id_l].sizeup)) {
-		new_x = obs1.x;
+		new_x = obs1.x+(wspeed-1)*dt;
 	}
 	if (obs2 !== undefined && new_x+this.width > obs2.x+obs2.width+(wspeed-1)*dt && 
 		(new_y+this.height > obstacles[id_r].sizedown || new_y < obstacles[id_r].sizeup)) {
