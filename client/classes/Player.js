@@ -86,13 +86,13 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 		new_y = CANVAS_HEIGHT-this.height;
 		new_vy = 0;
 	}
-	if (new_y < 0) {
-		new_y = 0;
+	if (new_y < -this.width) {
+		new_y = -this.width;
 		new_vy = 0.001;
 	}
 
-	if (new_x > CANVAS_WIDTH-this.width) {
-		new_x = CANVAS_WIDTH-this.width;
+	if (new_x > CANVAS_WIDTH) {
+		new_x = CANVAS_WIDTH;
 	}
 
 	this.x = new_x;
