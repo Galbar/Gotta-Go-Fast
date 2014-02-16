@@ -122,7 +122,7 @@ GameScene.prototype.draw = function(context) {
         context.font = "bold 12px Arial";
         context.fillStyle = this.players[it].color;
         context.fillText(this.players[it].name,17,(15*it)+18);
-        if (it === this.player_id)
+        if (it == this.player_id)
         {
             context.fillStyle = "red";
             context.fillText(">",7,(20*it)+18);
