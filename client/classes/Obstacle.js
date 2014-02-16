@@ -17,7 +17,6 @@ function Obstacle (id, width, scene) {
 
 Obstacle.prototype.generate = function(prev, dx){
     this.x = CANVAS_WIDTH+dx;
-    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
     var factor =  this.parent.randomGenerator();
     this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
     if (this.sizedown < 10+ESPAI_MIN_OBS) this.sizedown = 10+ESPAI_MIN_OBS;
