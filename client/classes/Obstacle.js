@@ -16,7 +16,6 @@ function Obstacle (id, width, scene) {
 }
 
 Obstacle.prototype.generate = function(prev, dx){
-    console.log(dx);
     this.x = CANVAS_WIDTH+dx;
     this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
     var factor =  this.parent.randomGenerator();

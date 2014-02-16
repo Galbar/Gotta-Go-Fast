@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 3;
+var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -103,8 +103,7 @@ function sendAllGameCommands () {
 			for (var pl in games[game].players) {
 				if (games[game].players[pl].is_active) {
 					io.sockets.sockets[games[game].players[pl].id].emit('updateDeltatime', DELTA_TIME);
-					var seed = '' + Date() + games[game].turns;
-					io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands, seed);
+					io.sockets.sockets[games[game].players[pl].id].emit('turnCommands', games[game].commands);
 				}
 			}
 			for (var it in games[game].commands) {
@@ -158,7 +157,7 @@ io.sockets.on('connection', function (socket) {
 				if(games[gam].players[pl_dis].id===socket.id) {
 					games[gam].players[pl_dis].is_active=false;
 					for (var pl in games[gam].players) {
-						io.sockets.sockets[games[game].players[pl].id].emit('pl_disconected', pl_dis);
+						io.sockets.sockets[games[gam].players[pl].id].emit('pl_disconected', pl_dis);
 					}
 				}
 			}
