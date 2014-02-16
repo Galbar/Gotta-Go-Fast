@@ -134,7 +134,7 @@ function getRandomUsername () {
 	surname2[38] = " Aveskamp";
 	surname2[39] = " Ackerman";
 
-	return names[Math.floor(Math.random()*33)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
+	return names[Math.floor(Math.random()*41)] + surname1[Math.floor(Math.random()*45)] + surname2[Math.floor(Math.random()*40)];
 }
 
 module.exports = getRandomUsername;
