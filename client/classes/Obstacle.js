@@ -1,5 +1,5 @@
 
-var ESPAI_MIN_OBS = 100;
+var ESPAI_MIN_OBS = 300;
 var DESNIVELL_MAX = 200;
 
 function Obstacle (id, width, scene) {
