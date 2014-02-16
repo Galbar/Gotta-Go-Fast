@@ -92,7 +92,7 @@ GameScene.prototype.update = function(deltatime) {
     for (var it in this.players) this.players[it].update(deltatime, this.wspeed,this.obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.95)
-        this.wspeed++;
+        this.wspeed--;
 };
 
 GameScene.prototype.draw = function(context) {
