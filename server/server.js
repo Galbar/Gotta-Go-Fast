@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 1;
+var standardGameSize = 4;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -65,8 +65,6 @@ function searchGame(idPlayer){
 				}
 				for(var pl in games[game].players){
 					var sid = games[game].players[pl].id;
-
-
 					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names, list_obstacles);
 				}
 			}
@@ -106,7 +104,8 @@ function startGame(game){
 
 function retrieveGameStatus (game) {
 	for (var pl in game.players) {
-		io.sockets.sockets[game.players[pl].id].emit('retrieveGameStatus');
+		if (game.players[pl].is_active)
+			io.sockets.sockets[game.players[pl].id].emit('retrieveGameStatus');
 	}
 }
 
@@ -134,7 +133,8 @@ function fixGameStatus (game) {
 	fixed_obs.x /= game.client_status.obs.length;
 	fixed_it = game.client_status.obs[0].it;
 	for (var pl in game.players) {
-		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs, fixed_it);
+		if (game.players[pl].is_active)
+			io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs, fixed_it);
 	}
 }
 
@@ -182,7 +182,7 @@ io.sockets.on('connection', function (socket) {
 		games[game].client_status_retrieved[pl] = true;
 		var done = true;
 		for (var it =0; it < games[game].size; it++) {
-			done = (done && games[game].client_status_retrieved[it]);
+			done = (done && (games[game].client_status_retrieved[it] || !games[game].players[it].is_active));
 		}
 		if (done === true) {
 			fixGameStatus(games[game]);
@@ -198,7 +198,8 @@ io.sockets.on('connection', function (socket) {
 				if(games[gam].players[pl_dis].id===socket.id) {
 					games[gam].players[pl_dis].is_active=false;
 					for (var pl in games[gam].players) {
-						io.sockets.sockets[games[game].players[pl].id].emit('pl_disconected', pl_dis);
+						if (games[gam].players[pl].is_active)
+							io.sockets.sockets[games[gam].players[pl].id].emit('pl_disconected', pl_dis);
 					}
 				}
 			}

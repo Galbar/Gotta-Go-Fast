@@ -25,10 +25,10 @@ Player.prototype.command = function (c) {
 }
 
 Player.prototype.update = function(dt, wspeed, obstacles) {
+	if (!this.is_active) {return;};
 	var new_x = this.x + (this.vx+wspeed)*dt;
 	var new_y = this.y + this.vy*dt;
 	var new_vy = this.vy + 498*dt;
-
 
 	var obs1 = undefined;
 	var obs2 = undefined;

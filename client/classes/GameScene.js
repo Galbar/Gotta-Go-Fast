@@ -23,11 +23,11 @@ function GameScene (socket) {
             self.players[pl].y = new_status[pl].y;
         };
 
-        for (var id in self.obstacles) {
+        /*for (var id in self.obstacles) {
             self.obstacles[id].x = (id*100+new_obs.x);
             if (self.obstacles[id].x > CANVAS_WIDTH)
                 self.obstacles[id].x -= self.obstacles.length*100;
-        }
+        }*/
         self.future_obstacles.iterator = obs_it;
     });
 
@@ -96,10 +96,6 @@ GameScene.prototype.update = function(deltatime) {
         this.sendCommand("L");
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
-    else if (this.kb.char("P"))
-        this.wspeed = 0;
-    else if (this.kb.char("O"))
-        this.wspeed = 100;
 
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
@@ -113,15 +109,18 @@ GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
-    context.font = "10px Arial";
+    context.font = "normal 18px Arial";
     for (var it in this.obstacles) this.obstacles[it].draw(context);
     for (var it in this.players) {
         this.players[it].draw(context);
     }
     context.fillStyle = "black";
-    context.fillRect(590, 0, CANVAS_WIDTH, (20*this.players.length)+20);
+    context.fillRect(0, 0, 200, (20*this.players.length)+10);
+    context.fillStyle = "white";
+    context.fillRect(1, 1, 198, (20*this.players.length)+8);
+    context.fillStyle = "black";
     for (var it in this.players) {
         context.fillStyle = this.players[it].color;
-        context.fillText(this.players[it].name,600,(20*it)+20);
+        context.fillText(this.players[it].name,10,(20*it)+18);
     }
 };
