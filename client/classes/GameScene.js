@@ -5,6 +5,10 @@ function GameScene (socket) {
     this.player_id;
     this.players = [];
     this.obstacles = [];
+    this.future_obstacles = {
+        list:[],
+        iterator:0
+    }
     this.match_start = false;
     this.wspeed = 100;
     var self = this;
@@ -39,13 +43,15 @@ function GameScene (socket) {
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players, obs);
     });
 
-    this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
+    this.socket.on('matchFound', function (match_id, player_id, players, seed, names, obstacles) {
         self.match_id = match_id;
         self.player_id = player_id;
         var obs_width = 100;
         // Init players
         var x_pos = 50;
         randomGenerator = new Math.seedrandom(seed);
+        self.future_obstacles.list = obstacles;
+        self.future_obstacles.iterator = 9;
 
         var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
 
@@ -90,7 +96,7 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.95)

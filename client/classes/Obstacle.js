@@ -2,11 +2,9 @@
 var ESPAI_MIN_OBS = 400;
 var DESNIVELL_MAX = 200;
 
-function Obstacle (id, width, scene) {
+function Obstacle (id, width) {
     this.x = CANVAS_HEIGHT;
     this.width = width;
-    //Crec que amb aquest random anira be, s'ha de provar
-    //this.height = Math.random()*(CANVAS_WIDTH-2*this.w)+this.w;
     this.speed = 3;
     this.sizeup = 10;
     this.sizedown = CANVAS_HEIGHT-10;
@@ -14,26 +12,14 @@ function Obstacle (id, width, scene) {
     this.color = '#'+Math.floor(randomGenerator()*16777215).toString(16);
 }
 
-Obstacle.prototype.generate = function(prev, dx, n){
-    this.x = CANVAS_WIDTH+dx;
-    var factor =  randomGenerator();
-    this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
-    if (this.sizedown < 10+ESPAI_MIN_OBS) this.sizedown = 10+ESPAI_MIN_OBS;
-    if (this.sizedown > CANVAS_HEIGHT-10) this.sizedown = CANVAS_HEIGHT-10;
-    
-    this.sizeup = Math.floor(factor * (prev.sizeup + DESNIVELL_MAX) + (1-factor) * (prev.sizeup - DESNIVELL_MAX));
-    if (this.sizeup > CANVAS_HEIGHT-ESPAI_MIN_OBS-10) this.sizeup = CANVAS_HEIGHT-ESPAI_MIN_OBS-10;
-    if (this.sizeup < 10) this.sizeup = 10;
-
-
-
-}
-
-Obstacle.prototype.update = function(dt, wspeed, obstacles) {
-    var prev_id = this.id-1;
-    if (prev_id < 0) prev_id = obstacles.length-1;
-    if (this.x < -this.width) this.generate(obstacles[prev_id], this.x+this.width);
+Obstacle.prototype.update = function(dt, wspeed, obstacles, future) {
     this.x += wspeed*dt;
+    if (this.x >= -this.width) {return;};
+    this.x = CANVAS_WIDTH+this.x+this.width;
+    this.sizeup = future.list[future.iterator].sizeup;
+    this.sizedown = future.list[future.iterator].sizedown;
+    this.color = future.list[future.iterator].color;
+    future.iterator = (future.iterator+1)%future.list.length;
 }
 
 Obstacle.prototype.draw = function(ctx) {

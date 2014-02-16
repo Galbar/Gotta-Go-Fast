@@ -6,10 +6,48 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 2;
+var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
+
+var ESPAI_MIN_OBS = 400;
+var DESNIVELL_MAX = 200;
+var CANVAS_WIDTH = 800;
+var CANVAS_HEIGHT = 500;
+
+function generateObstacles (n) {
+	var list=[];
+	for (var i = 0; i < 9; i++) {
+		var a = {
+			sizedown:490,
+			sizeup:10,
+			color:"red"
+		};
+		a.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		list.push(a);
+	}
+	for (var i = 9; i < n; i++) {
+		var a = {
+			sizedown:10,
+			sizeup:490,
+			color:"red"
+		};
+		var factor =  Math.random();
+		var prev_id = i-1;
+		var prev = list[prev_id];
+		a.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
+		if (a.sizedown < 10+ESPAI_MIN_OBS) a.sizedown = 10+ESPAI_MIN_OBS;
+		if (a.sizedown > CANVAS_HEIGHT-10) a.sizedown = CANVAS_HEIGHT-10;
+
+		a.sizeup = Math.floor(factor * (prev.sizeup + DESNIVELL_MAX) + (1-factor) * (prev.sizeup - DESNIVELL_MAX));
+		if (a.sizeup > CANVAS_HEIGHT-ESPAI_MIN_OBS-10) a.sizeup = CANVAS_HEIGHT-ESPAI_MIN_OBS-10;
+		if (a.sizeup < 10) a.sizeup = 10;
+		a.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		list.push(a);
+	};
+	return list;
+}
 
 function searchGame(idPlayer){
 	var assignat=false;
@@ -26,7 +64,10 @@ function searchGame(idPlayer){
 				}
 				for(var pl in games[game].players){
 					var sid = games[game].players[pl].id;
-					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names);
+
+					var list_obstacles = generateObstacles(100000);
+
+					io.sockets.sockets[sid].emit('matchFound', game, pl, games[game].players, seed, names, list_obstacles);
 				}
 			}
 		}
@@ -42,7 +83,8 @@ function searchGame(idPlayer){
 			var sid = games[gameId].players[0].id;
 			var names=[];
 			names[0] = getRandomUsername();
-			io.sockets.sockets[sid].emit('matchFound', gameId, 0, games[gameId].players, seed, names);
+			var list_obstacles = generateObstacles(100000);
+			io.sockets.sockets[sid].emit('matchFound', gameId, 0, games[gameId].players, seed, names, list_obstacles);
 		};
 	}
 }
@@ -92,7 +134,7 @@ function fixGameStatus (game) {
 	}
 	fixed_obs.x /= game.client_status.obs.length;
 
-    for (var pl in game.players) {
+	for (var pl in game.players) {
 		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs);
 	}
 }
