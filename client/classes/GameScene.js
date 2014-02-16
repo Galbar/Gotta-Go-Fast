@@ -104,11 +104,9 @@ GameScene.prototype.update = function(deltatime) {
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
-    if (this.wspeed < this.players[0].speedx*0.85) {
-        console.log("HEUHEU");
+    if (this.wspeed < this.players[0].speedx*0.90)
         this.wspeed++;
-        console.log(this.wspeed);
-    }
+    //for(var it in this.players) this.players[it].speedx++;
 };
 
 GameScene.prototype.draw = function(context) {
