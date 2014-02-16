@@ -82,6 +82,10 @@ function GameScene (socket) {
             self.players[it].command(commands[it]);
         };
     });
+
+    this.socket.on('pl_disconected', function (pl_id) {
+        self.players[pl_id].is_active = false;
+    });
 }
 
 GameScene.prototype.sendCommand = function(c) {
@@ -121,6 +125,11 @@ GameScene.prototype.draw = function(context) {
         context.font = "bold 12px Arial";
         context.fillStyle = this.players[it].color;
         context.fillText(this.players[it].name,17,(15*it)+18);
+        if (!this.players[it].is_active) {
+            context.moveTo(12,(15*it)+15);
+            context.lineTo(225,(15*it)+15);
+            context.stroke();
+        }
         if (it == this.player_id)
         {
             context.fillStyle = "red";
