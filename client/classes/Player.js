@@ -9,7 +9,7 @@ function Player (id, n) {
 	this.width = 50;
 	this.height = 50;
 	this.color = '#'+Math.floor(n*16777215).toString(16);
-	while (this.color === '#FFFFFF')
+	while (this.color === '#FFFFFF' || this.color === '#000000')
 	{
 		this.color = '#'+Math.floor(n*16777215).toString(16);	
 	}
@@ -94,6 +94,9 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 	}
 	if (this.x < 0) {
 		this.x = 0;
+	}
+	if (this.x > CANVAS_WIDTH-this.width) {
+		this.x = CANVAS_WIDTH-this.width;
 	}
 }
 

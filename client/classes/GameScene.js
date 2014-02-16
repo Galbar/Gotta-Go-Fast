@@ -13,11 +13,17 @@ function GameScene (socket) {
         self.match_start = true; 
     });
 
-    this.socket.on('updateGameStatus', function (new_status) {
+    this.socket.on('updateGameStatus', function (new_status, new_obs) {
         for (var pl in self.players) {
             self.players[pl].x = new_status[pl].x;
             self.players[pl].y = new_status[pl].y;
         };
+
+        for (var id in self.obstacles) {
+            self.obstacles[id].x = (id*100+new_obs.x);
+            if (self.obstacles[id].x > CANVAS_WIDTH)
+                self.obstacles[id].x -= self.obstacles.length*100;
+        }
     });
 
     this.socket.on('retrieveGameStatus', function() {
@@ -27,7 +33,10 @@ function GameScene (socket) {
                             y: self.players[pl].y
                           }
         };
-        self.socket.emit('sendGameStatus', self.match_id, self.player_id, players);
+        var i = 0;
+        while (self.obstacles[i].x < -50) i++;
+        var obs = { id: i, x: self.obstacles[i].x };
+        self.socket.emit('sendGameStatus', self.match_id, self.player_id, players, obs);
     });
 
     this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
