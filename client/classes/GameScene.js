@@ -7,7 +7,7 @@ function GameScene (socket) {
     this.obstacles = [];
     this.match_start = false;
     this.randomGenerator;
-    this.wspeed = -100;
+    this.wspeed = 100;
     var self = this;
 
     this.socket.on('matchStart', function () {
@@ -88,11 +88,11 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, this.wspeed, this.obstacles);
-    for (var it in this.players) this.players[it].update(deltatime, this.wspeed,this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles);
+    for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.95)
-        this.wspeed--;
+        this.wspeed++;
 };
 
 GameScene.prototype.draw = function(context) {
