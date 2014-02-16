@@ -7,6 +7,7 @@ function GameScene (socket) {
     this.obstacles = [];
     this.match_start = false;
     this.randomGenerator;
+    this.wspeed = -100;
     var self = this;
 
     this.socket.on('matchStart', function () {
@@ -80,7 +81,6 @@ GameScene.prototype.sendCommand = function(c) {
 
 GameScene.prototype.update = function(deltatime) {
     if (!this.match_start) {return;};
-
     if ((this.players[this.player_id].vy === 0 ) && ( this.kb.char("W") || this.kb.char(" ") || this.kb.char("&")))
         this.sendCommand("U");
     else if (this.kb.char("A") || this.kb.char("%"))
@@ -88,8 +88,11 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -100, this.obstacles);
-    for (var it in this.players) this.players[it].update(deltatime,-100,this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -, this.obstacles);
+    for (var it in this.players) this.players[it].update(deltatime,,this.obstacles);
+
+    if (this.wspeed < this.players[0].speedx*0.95)
+        this.wspeed++;
 };
 
 GameScene.prototype.draw = function(context) {
