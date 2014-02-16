@@ -15,8 +15,8 @@ function Player (id, n) {
 	}
 	this.vx = 0;
 	this.vy = 0;
-	this.speedx = 300;
-	this.speedy = -500;
+	this.speedx = 500;
+	this.speedy = -300;
 	this.is_active = false;
 	//this.image = userIMG;
 }
