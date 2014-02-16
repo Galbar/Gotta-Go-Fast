@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 2;
+var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -70,19 +70,30 @@ function retrieveGameStatus (game) {
 
 function fixGameStatus (game) {
 	var fixed_status = [];
-	for (var pl in game.client_status) {
+	for (var pl in game.client_status.players) {
 		fixed_status[pl] = { x:0, y:0 };
 	}
-	for (var pl in game.client_status) {
-		for (var pl2 in game.client_status) {
-			fixed_status[pl].x += game.client_status[pl2][pl].x;
-			fixed_status[pl].y += game.client_status[pl2][pl].y;
+	for (var pl in game.client_status.players) {
+		for (var pl2 in game.client_status.players) {
+			fixed_status[pl].x += game.client_status.players[pl2][pl].x;
+			fixed_status[pl].y += game.client_status.players[pl2][pl].y;
 		}
 		fixed_status[pl].x /= game.size;
 		fixed_status[pl].y /= game.size;
 	}
+
+	var obs_ref_id = game.client_status.obs[0].id;
+	var fixed_obs = {
+		id: 0,
+		x: 0
+	};
+	for (var id in game.client_status.obs) {
+		fixed_obs.x += game.client_status.obs[id].x-(game.client_status.obs[id].id*100);
+	}
+	fixed_obs.x /= game.client_status.obs.length;
+
     for (var pl in game.players) {
-		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
+		io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs);
 	}
 }
 
@@ -124,8 +135,9 @@ io.sockets.on('connection', function (socket) {
 		if(games[game].commands[pl] !== 'U') games[game].commands[pl] = c;
 	});
 
-	socket.on('sendGameStatus', function (game, pl, players) {
-		games[game].client_status[pl] = players;
+	socket.on('sendGameStatus', function (game, pl, players, obs) {
+		games[game].client_status.players[pl] = players;
+		games[game].client_status.obs[pl] = obs;
 		games[game].client_status_retrieved[pl] = true;
 		var done = true;
 		for (var it =0; it < games[game].size; it++) {

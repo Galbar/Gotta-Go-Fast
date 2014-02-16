@@ -19,9 +19,9 @@ function Obstacle (id, width, scene) {
     }
 }
 
-Obstacle.prototype.generate = function(prev){
-
-    this.x = CANVAS_WIDTH;
+Obstacle.prototype.generate = function(prev, dx){
+    console.log(dx);
+    this.x = CANVAS_WIDTH+dx;
     this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
     var factor =  this.parent.randomGenerator();
     this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
@@ -39,7 +39,7 @@ Obstacle.prototype.generate = function(prev){
 Obstacle.prototype.update = function(dt, wspeed, obstacles) {
     var prev_id = this.id-1;
     if (prev_id < 0) prev_id = obstacles.length-1;
-    if (this.x < -this.width) this.generate(obstacles[prev_id]);
+    if (this.x < -this.width) this.generate(obstacles[prev_id], this.x+this.width);
     this.x += wspeed*dt;
 }
 

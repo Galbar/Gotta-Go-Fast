@@ -6,7 +6,10 @@ function Game (size) {
 	for (var i = 0; i < size; i++) {
 		this.commands[i] = "S";
 	};
-	this.client_status=[];
+	this.client_status={
+		obs:[],
+		players:[]
+	};
 	this.client_status_retrieved=[];
 	for (var i = 0; i < size; i++) {
 		this.client_status_retrieved[i] = false;
