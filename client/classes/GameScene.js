@@ -19,11 +19,11 @@ function GameScene (socket) {
             self.players[pl].y = new_status[pl].y;
         };
 
-        for (var id in self.obstacles) {
+        /*for (var id in self.obstacles) {
             self.obstacles[id].x = (id*100+new_obs.x);
             if (self.obstacles[id].x > CANVAS_WIDTH)
                 self.obstacles[id].x -= self.obstacles.length*100;
-        }
+        }*/
     });
 
     this.socket.on('retrieveGameStatus', function() {
