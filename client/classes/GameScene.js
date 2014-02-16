@@ -70,10 +70,11 @@ function GameScene (socket) {
         self.socket.emit('userReady', self.match_id, self.player_id);
     });
 
-    this.socket.on('turnCommands', function (commands) {
+    this.socket.on('turnCommands', function (commands, seed) {
         for (var it in commands) {
             self.players[it].command(commands[it]);
         };
+        self.randomGenerator = new Math.seedrandom(seed);
     });
 }
 
@@ -95,9 +96,6 @@ GameScene.prototype.update = function(deltatime) {
 
     if (this.wspeed < this.players[0].speedx*0.95)
         this.wspeed++;
-
-    self.randomGenerator = new Math.seedrandom(this.seed+this.iteration);
-    this.iteration++;
 };
 
 GameScene.prototype.draw = function(context) {
