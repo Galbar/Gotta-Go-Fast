@@ -10,7 +10,7 @@ function GameScene (socket) {
         iterator:0
     }
     this.match_start = false;
-    this.wspeed = 200;
+    this.wspeed = 50;
     var self = this;
 
     this.socket.on('matchStart', function () {
@@ -102,7 +102,6 @@ GameScene.prototype.update = function(deltatime) {
 
     if (this.wspeed < this.players[0].speedx*0.90)
         this.wspeed++;
-    //for(var it in this.players) this.players[it].speedx++;
 };
 
 GameScene.prototype.draw = function(context) {
