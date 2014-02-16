@@ -33,6 +33,8 @@ function getRandomUsername () {
 	names[28] = "Nicolas";
 	names[29] = "Nat";
 	names[30] = "Torra";
+	names[31] = "Pringles";
+	names[32] = "Haggard";
 
 	var surname1 = new Array();
 	surname1[0] = " Russel";
@@ -95,7 +97,7 @@ function getRandomUsername () {
 	surname2[24] = " Torramilans";
 	surname2[25] = " Torramilans"; 
 
-	return names[Math.floor(Math.random()*31)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
+	return names[Math.floor(Math.random()*33)] + surname1[Math.floor(Math.random()*31)] + surname2[Math.floor(Math.random()*26)];
 }
 
 module.exports = getRandomUsername;
