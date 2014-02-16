@@ -140,9 +140,16 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('disconnect', function () {
-		/*console.log(socket.id + " has disconnected from the server!");
-		delete players[socket.id];
-		io.sockets.emit('playerDisconnect', socket.id);*/
+		for(var gam in games){
+			for(var pl_dis in games[gam].players){
+				if(games[gam].players[pl_dis].id===socket.id) {
+					games[gam].players[pl_dis].is_active=false;
+					for (var pl in games[gam].players) {
+						io.sockets.sockets[games[game].players[pl].id].emit('pl_disconected', pl_dis);
+					}
+				}
+			}
+		}
 	});
 
 });
