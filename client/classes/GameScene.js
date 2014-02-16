@@ -114,18 +114,18 @@ GameScene.prototype.draw = function(context) {
         this.players[it].draw(context);
     }
     context.fillStyle = "black";
-    context.fillRect(0, 0, 200, (20*this.players.length)+10);
+    context.fillRect(0, 0, 200, (15*this.players.length)+11);
     context.fillStyle = "white";
-    context.fillRect(1, 1, 198, (20*this.players.length)+8);
+    context.fillRect(1, 1, 198, (15*this.players.length)+9);
     context.fillStyle = "black";
     for (var it = 0; it < this.players.length; it++) {
         context.font = "bold 12px Arial";
         context.fillStyle = this.players[it].color;
-        context.fillText(this.players[it].name,15,(15*it)+18);
+        context.fillText(this.players[it].name,17,(15*it)+18);
         if (it === this.player_id)
         {
             context.fillStyle = "red";
-            context.fillText(">",5,(20*it)+18);
+            context.fillText(">",7,(20*it)+18);
         }
     }
 };
