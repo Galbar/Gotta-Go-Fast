@@ -10,7 +10,7 @@ function GameScene (socket) {
         iterator:0
     }
     this.match_start = false;
-    this.wspeed = 400;
+    this.wspeed = 200;
     var self = this;
 
     this.socket.on('matchStart', function () {
@@ -104,8 +104,11 @@ GameScene.prototype.update = function(deltatime) {
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
-    /*if (this.wspeed < this.players[0].speedx*0.95)
-        this.wspeed++;*/
+    if (this.wspeed < this.players[0].speedx*0.85) {
+        console.log("HEUHEU");
+        this.wspeed++;
+        console.log(this.wspeed);
+    }
 };
 
 GameScene.prototype.draw = function(context) {
