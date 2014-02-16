@@ -88,8 +88,8 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -, this.obstacles);
-    for (var it in this.players) this.players[it].update(deltatime,,this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, this.wspeed, this.obstacles);
+    for (var it in this.players) this.players[it].update(deltatime, this.wspeed,this.obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.95)
         this.wspeed++;
