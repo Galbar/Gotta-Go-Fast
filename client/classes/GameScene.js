@@ -50,18 +50,20 @@ function GameScene (socket) {
         var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
 
         for (var i = 0; i < n_obs; i++) {
-            self.obstacles[i] = new Obstacle(i, obs_width, self);
-            self.obstacles[i].x = i*obs_width;
-            self.obstacles[i].sizeup = 10;
-            self.obstacles[i].sizedown = CANVAS_HEIGHT-10;
+            var o = new Obstacle(i, obs_width, self);
+            o.x = i*obs_width;
+            o.sizeup = 10;
+            o.sizedown = CANVAS_HEIGHT-10;
+            self.obstacles.push (o);
         }
 
         for (var it in players) {
-            self.players[it] = new Player(players[it].id, randomGenerator());
-            self.players[it].x = x_pos;
-            self.players[it].y = 300;
-            self.players[it].is_active = true;
-            self.players[it].name = names[it];
+            var p = new Player(players[it].id, randomGenerator())
+            p.x = x_pos;
+            p.y = 300;
+            p.is_active = true;
+            p.name = names[it];
+            self.players.push(p);
             x_pos += 60;
         };
 
