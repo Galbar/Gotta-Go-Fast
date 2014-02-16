@@ -9,10 +9,6 @@ function Player (id, n) {
 	this.width = 50;
 	this.height = 50;
 	this.color = '#'+Math.floor(n*16777215).toString(16);
-	while (this.color === '#FFFFFF' || this.color === '#000000')
-	{
-		this.color = '#'+Math.floor(n*16777215).toString(16);	
-	}
 	this.vx = 0;
 	this.vy = 0;
 	this.speedx = 500;

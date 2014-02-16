@@ -13,10 +13,6 @@ function Obstacle (id, width, scene) {
     this.parent = scene;
     this.id=id;
     this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
-    while (this.color === '#FFFFFF')
-    {
-        this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);   
-    }
 }
 
 Obstacle.prototype.generate = function(prev, dx){
