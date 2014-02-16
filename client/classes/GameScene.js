@@ -52,6 +52,8 @@ function GameScene (socket) {
         for (var i = 0; i < n_obs; i++) {
             self.obstacles[i] = new Obstacle(i, obs_width, self);
             self.obstacles[i].x = i*obs_width;
+            self.obstacles[i].sizeup = 10;
+            self.obstacles[i].sizedown = CANVAS_HEIGHT-10;
         }
 
         for (var it in players) {
