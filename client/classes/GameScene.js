@@ -35,7 +35,7 @@ function GameScene (socket) {
         };
         var i = 0;
         while (self.obstacles[i].x < -50) i++;
-        var obs = { id: 0, x: self.obstacles[0].x };
+        var obs = { id: i, x: self.obstacles[i].x };
         self.socket.emit('sendGameStatus', self.match_id, self.player_id, players, obs);
     });
 
