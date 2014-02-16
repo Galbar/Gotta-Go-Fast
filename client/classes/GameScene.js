@@ -100,7 +100,7 @@ GameScene.prototype.update = function(deltatime) {
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
-    if (this.wspeed < this.players[0].speedx*0.90)
+    if (this.wspeed < this.players[0].speedx*0.80)
         this.wspeed++;
 };
 
