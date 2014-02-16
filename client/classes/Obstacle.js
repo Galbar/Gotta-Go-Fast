@@ -1,37 +1,46 @@
 
-var ESPAI_MIN_OBS = 100;
-var DESNIVELL_MAX = 300;
+var ESPAI_MIN_OBS = 300;
+var DESNIVELL_MAX = 200;
 
-function Obstacle (id, width, randomGenerator) {
+function Obstacle (id, width, scene) {
     this.x = CANVAS_HEIGHT;
     this.width = width;
     //Crec que amb aquest random anira be, s'ha de provar
     //this.height = Math.random()*(CANVAS_WIDTH-2*this.w)+this.w;
-    this.color = "red";
     this.speed = 3;
     this.sizeup = 10;
     this.sizedown = CANVAS_HEIGHT-10;
-    this.randomGenerator = randomGenerator;
+    this.parent = scene;
     this.id=id;
+    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
+    while (this.color === '#FFFFFF')
+    {
+        this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);   
+    }
 }
 
 Obstacle.prototype.generate = function(prev){
 
     this.x = CANVAS_WIDTH;
-    var y_max_bloc_down = CANVAS_HEIGHT;
-    var y_min_bloc_down = prev.sizedown-DESNIVELL_MAX;
-    if(y_min_bloc_down<0+ESPAI_MIN_OBS) y_min_bloc_down = 0+ESPAI_MIN_OBS;
-    this.sizedown = Math.floor(this.randomGenerator()*(y_max_bloc_down-y_min_bloc_down+1)+y_min_bloc_down);
+    this.color = '#'+Math.floor(this.parent.randomGenerator()*16777215).toString(16);
+    var factor =  this.parent.randomGenerator();
+    this.sizedown = Math.floor(factor * (prev.sizedown + DESNIVELL_MAX) + (1-factor) * (prev.sizedown - DESNIVELL_MAX));
+    if (this.sizedown < 10+ESPAI_MIN_OBS) this.sizedown = 10+ESPAI_MIN_OBS;
+    if (this.sizedown > CANVAS_HEIGHT-10) this.sizedown = CANVAS_HEIGHT-10;
     
-    var y_min_bloc_up = 0;
-    var y_max_bloc_up = this.sizedown-ESPAI_MIN_OBS;
-    this.sizeup = Math.floor(this.randomGenerator()*(y_max_bloc_up-y_min_bloc_up+1)+y_min_bloc_up);
+    this.sizeup = Math.floor(factor * (prev.sizeup + DESNIVELL_MAX) + (1-factor) * (prev.sizeup - DESNIVELL_MAX));
+    if (this.sizeup > CANVAS_HEIGHT-ESPAI_MIN_OBS-10) this.sizeup = CANVAS_HEIGHT-ESPAI_MIN_OBS-10;
+    if (this.sizeup < 10) this.sizeup = 10;
+
+
 
 }
 
 Obstacle.prototype.update = function(dt, wspeed, obstacles) {
+    var prev_id = this.id-1;
+    if (prev_id < 0) prev_id = obstacles.length-1;
+    if (this.x < -this.width) this.generate(obstacles[prev_id]);
     this.x += wspeed*dt;
-    if (this.x+this.width < 0) this.generate(obstacles[this.id%obstacles.length]);
 }
 
 Obstacle.prototype.draw = function(ctx) {
@@ -40,5 +49,5 @@ Obstacle.prototype.draw = function(ctx) {
     ctx.fillRect(this.x,this.sizedown,this.width,CANVAS_HEIGHT);
     ctx.fillStyle = "black";
     ctx.font = "10px Arial";
-    ctx.fillText(this.x+", "+this.sizeup+", "+this.sizedown,this.x,10);
+    ctx.fillText(this.id,this.x,CANVAS_HEIGHT);
 }

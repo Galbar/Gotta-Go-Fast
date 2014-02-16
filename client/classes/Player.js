@@ -9,6 +9,10 @@ function Player (id, n) {
 	this.width = 50;
 	this.height = 50;
 	this.color = '#'+Math.floor(n*16777215).toString(16);
+	while (this.color === '#FFFFFF')
+	{
+		this.color = '#'+Math.floor(n*16777215).toString(16);	
+	}
 	this.vx = 0;
 	this.vy = 0;
 	this.speedx = 300;
@@ -46,6 +50,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 
 	var dist_y;
 	var pos_y;
+	var vel_y = 0.001;
 	var dist_x;
 	if (obs1 !== undefined) {
 		if (obs1.sizeup > this.y) {
@@ -57,6 +62,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 			// Colision abajo a la izquierda
 			dist_y = Math.abs(obs1.sizedown-this.height);
 			pos_y = obs1.sizedown-this.height;
+			vel_y = 0;
 		}
 	}
 
@@ -73,11 +79,12 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 			if (dist_y === undefined || dist_y > Math.abs(this.y - obs2.sizeup)) {
 				dist_y = Math.abs(obs2.sizedown-this.height);
 				pos_y = obs2.sizedown-this.height;
+				vel_y = 0;
 			}
 		}
 		if (pos_y !== undefined) {
 			this.y = pos_y;
-			this.vy = 0;
+			this.vy = vel_y;
 		}
 	}
 
@@ -94,12 +101,5 @@ Player.prototype.draw = function(ctx) {
 	if (this.is_active) {
 		ctx.fillStyle = this.color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
-		ctx.fillStyle = "black";
-		ctx.font = "10px Arial";
-		ctx.fillText(this.name,this.x-20,this.y-10);
 	}
-}
-
-Player.prototype.collision = function(obstacle) {
-
 }

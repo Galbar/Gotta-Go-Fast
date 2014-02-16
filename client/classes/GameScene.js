@@ -41,10 +41,10 @@ function GameScene (socket) {
         var n_obs = Math.ceil(CANVAS_WIDTH/obs_width)+1;
 
         for (var i = 0; i < n_obs; i++) {
-            self.obstacles[i] = new Obstacle(i, obs_width, self.randomGenerator);
+            self.obstacles[i] = new Obstacle(i, obs_width, self);
             self.obstacles[i].x = i*obs_width;
+            console.log(self.obstacles[i].x);
         }
-        console.log(self.obstacles.length);
 
         for (var it in players) {
             self.players[it] = new Player(players[it].id, self.randomGenerator());
@@ -79,14 +79,23 @@ GameScene.prototype.update = function(deltatime) {
     else if (this.kb.char("D") || this.kb.char("'"))
         this.sendCommand("R");
 
-    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -200, this.obstacles);
-    for (var it in this.players) this.players[it].update(deltatime,-200,this.obstacles);
+    for (var it in this.obstacles) this.obstacles[it].update(deltatime, -50, this.obstacles);
+    for (var it in this.players) this.players[it].update(deltatime,-50,this.obstacles);
 };
 
 GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
-    for (var it in this.players) this.players[it].draw(context);
+    context.font = "10px Arial";
     for (var it in this.obstacles) this.obstacles[it].draw(context);
+    for (var it in this.players) {
+        this.players[it].draw(context);
+    }
+    context.fillStyle = "black";
+    context.fillRect(590, 0, CANVAS_WIDTH, (20*this.players.length)+20);
+    for (var it in this.players) {
+        context.fillStyle = this.players[it].color;
+        context.fillText(this.players[it].name,600,(20*it)+20);
+    }
 };

@@ -62,8 +62,8 @@ Game.prototype.draw = function() {
 
 Game.prototype._play = function() {
     this.stats.begin();
-    this.update(this.deltatime);
     this.draw();
+    this.update(this.deltatime);
     this.stats.end();
 };
 
