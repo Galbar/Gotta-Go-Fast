@@ -124,7 +124,7 @@ GameScene.prototype.draw = function(context) {
     for (var it = 0; it < this.players.length; it++) {
         context.font = "bold 12px Arial";
         context.fillStyle = this.players[it].color;
-        context.fillText(this.players[it].name,17,(15*it)+18);
+        context.fillText(this.players[it].name,20,(15*it)+18);
         if (!this.players[it].is_active) {
             context.moveTo(12,(15*it)+15);
             context.lineTo(225,(15*it)+15);
@@ -133,7 +133,7 @@ GameScene.prototype.draw = function(context) {
         if (it == this.player_id)
         {
             context.fillStyle = "red";
-            context.fillText(">",7,(15*it)+18);
+            context.fillText("▶",7,(15*it)+17);
         }
     }
 };
