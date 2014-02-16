@@ -25,7 +25,7 @@ Player.prototype.command = function (c) {
 	if (c === 'U') this.vy = this.speedy;
 	else if (c === 'L') this.vx = -this.speedx;
 	else if (c === 'R') this.vx = this.speedx;
-	//else if (c === 'S') this.vx = 0;
+	else if (c === 'S') this.vx = 0;
 }
 
 Player.prototype.update = function(dt, wspeed, obstacles) {
