@@ -16,13 +16,12 @@ function Player (id, n) {
 	this.vx = 0;
 	this.vy = 0;
 	this.speedx = 500;
-	this.speedy = -300;
+	this.speedy = -350;
 	this.is_active = false;
 	//this.image = userIMG;
 }
 
 Player.prototype.command = function (c) {
-	this.vx = 0;
 	if (c === 'U') this.vy = this.speedy;
 	else if (c === 'L') this.vx = -this.speedx;
 	else if (c === 'R') this.vx = this.speedx;
@@ -33,7 +32,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 	this.x += (this.vx+wspeed)*dt;
 	this.y += this.vy*dt;
 
-	this.vy += 500*dt;
+	this.vy += 498*dt;
 
 	var obs1 = undefined;
 	var obs2 = undefined;
