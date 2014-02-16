@@ -125,7 +125,7 @@ GameScene.prototype.draw = function(context) {
         if (it == this.player_id)
         {
             context.fillStyle = "red";
-            context.fillText(">",7,(20*it)+18);
+            context.fillText(">",7,(15*it)+18);
         }
     }
 };
