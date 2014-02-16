@@ -111,16 +111,22 @@ function retrieveGameStatus (game) {
 
 function fixGameStatus (game) {
 	var fixed_status = [];
+	var pl_act = 0;
 	for (var pl in game.client_status.players) {
-		fixed_status[pl] = { x:0, y:0 };
+		if (game.players[pl].is_active) {
+			fixed_status[pl] = { x:0, y:0 };
+			pl_act++;
+		}
 	}
 	for (var pl in game.client_status.players) {
 		for (var pl2 in game.client_status.players) {
-			fixed_status[pl].x += game.client_status.players[pl2][pl].x;
-			fixed_status[pl].y += game.client_status.players[pl2][pl].y;
+			if (game.players[pl].is_active && game.players[pl2].is_active) {
+				fixed_status[pl].x += game.client_status.players[pl2][pl].x;
+				fixed_status[pl].y += game.client_status.players[pl2][pl].y;
+			}
 		}
-		fixed_status[pl].x /= game.size;
-		fixed_status[pl].y /= game.size;
+		fixed_status[pl].x /= pl_act;
+		fixed_status[pl].y /= pl_act;
 	}
 
 	var fixed_obs = {
@@ -128,10 +134,13 @@ function fixGameStatus (game) {
 		x: 0
 	};
 	for (var id in game.client_status.obs) {
-		fixed_obs.x += game.client_status.obs[id].x-(game.client_status.obs[id].id*100);
+		if (game.players[id].is_active)
+			fixed_obs.x += game.client_status.obs[id].x-(game.client_status.obs[id].id*100);
 	}
-	fixed_obs.x /= game.client_status.obs.length;
-	fixed_it = game.client_status.obs[0].it;
+	fixed_obs.x /= pl_act;
+	var it;
+	for (var id in game.players) if (game.players[id].is_active) {it = id; break;};
+	fixed_it = game.client_status.obs[it].it;
 	for (var pl in game.players) {
 		if (game.players[pl].is_active)
 			io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs, fixed_it);
@@ -197,9 +206,15 @@ io.sockets.on('connection', function (socket) {
 			for(var pl_dis in games[gam].players){
 				if(games[gam].players[pl_dis].id===socket.id) {
 					games[gam].players[pl_dis].is_active=false;
+					var has_players = false;
 					for (var pl in games[gam].players) {
-						if (games[gam].players[pl].is_active)
+						if (games[gam].players[pl].is_active) {
+							has_players = true;
 							io.sockets.sockets[games[gam].players[pl].id].emit('pl_disconected', pl_dis);
+						}
+					}
+					if (has_players === false) {
+						games[gam].is_active = false;
 					}
 				}
 			}
