@@ -33,7 +33,7 @@ function GameScene (socket) {
     this.socket.on('matchFound', function (match_id, player_id, players, seed, names) {
         self.match_id = match_id;
         self.player_id = player_id;
-        var obs_width = 50;
+        var obs_width = 100;
         // Init players
         var x_pos = 50;
         self.randomGenerator = new Math.seedrandom(seed);
@@ -87,6 +87,12 @@ GameScene.prototype.draw = function(context) {
     context.fillStyle = "white";
     context.fillRect(0,0,context.canvas.width,context.canvas.height);
     if (!this.match_start) {return;};
+    context.font = "10px Arial";
     for (var it in this.obstacles) this.obstacles[it].draw(context);
-    for (var it in this.players) this.players[it].draw(context);
+    context.fillRect(590, 0, CANVAS_WIDTH, (20*this.players.length)+20);
+    for (var it in this.players) {
+        this.players[it].draw(context);
+        context.fillStyle = this.players[it].color;
+        context.fillText(this.players[it].name,600,(20*it)+20);
+    }
 };
