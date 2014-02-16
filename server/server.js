@@ -13,7 +13,7 @@ var DELTA_TIME = 30;
 
 var ESPAI_MIN_OBS = 380;
 var DESNIVELL_MAX = 200;
-var CANVAS_WIDTH = 800;
+var CANVAS_WIDTH = 1000;
 var CANVAS_HEIGHT = 500;
 
 function generateObstacles (n) {
