@@ -59,7 +59,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 	}
 	if (obs2 !== undefined && new_x+this.width > obs2.x+obs2.width+(wspeed-1)*dt && 
 		(new_y+this.height > obstacles[id_r].sizedown || new_y < obstacles[id_r].sizeup)) {
-		new_x = obs2.x+obs2.width-this.width+(wspeed-1)*dt;
+		new_x = obs2.x+obs2.width-this.width+(wspeed-2)*dt;
 	}
 	if (obs1 !== undefined && new_y+this.height > obs1.sizedown && this.x > obs1.x && this.x < obs1.x+obs1.width) {
 		new_y = obs1.sizedown-this.height;

@@ -49,7 +49,7 @@ function GameScene (socket) {
         self.player_id = player_id;
         var obs_width = 100;
         // Init players
-        var x_pos = 50;
+        var x_pos = 200;
         randomGenerator = new Math.seedrandom(seed);
         self.future_obstacles.list = obstacles;
         self.future_obstacles.iterator = 9;
