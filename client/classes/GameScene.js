@@ -114,8 +114,6 @@ GameScene.prototype.update = function(deltatime) {
             this.you_win |= this.players[it].is_active;
     }
 
-    this.you_win = !this.you_win;
-
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.80)
