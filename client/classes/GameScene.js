@@ -111,7 +111,8 @@ GameScene.prototype.update = function(deltatime) {
     var foo = false;
     for (var it in this.players) {
         this.players[it].update(deltatime, -this.wspeed,this.obstacles);
-        foo |= this.players[it].is_active;
+        if (it !== this.player_id)
+            foo |= this.players[it].is_active;
     }
 
     this.you_win = !foo;
