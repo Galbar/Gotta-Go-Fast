@@ -6,7 +6,7 @@ var Game = require('./game');
 var Player = require('./player');
 
 var gameId = 0;
-var standardGameSize = 2;
+var standardGameSize = 1;
 var games = [];
 
 var DELTA_TIME = 30;
@@ -204,23 +204,35 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('disconnect', function () {
+		var done = false;
+		var game;
 		for(var gam in games){
+			if (done) break;
 			for(var pl_dis in games[gam].players){
+				if (done) break;
 				if(games[gam].players[pl_dis].id===socket.id) {
+					game = gam;
 					games[gam].players[pl_dis].is_active=false;
-					var has_players = false;
-					for (var pl in games[gam].players) {
-						if (games[gam].players[pl].is_active) {
-							has_players = true;
-							io.sockets.sockets[games[gam].players[pl].id].emit('pl_disconected', pl_dis);
-						}
-					}
-					if (has_players === false) {
-						games[gam].is_active = false;
-					}
+					done = true;
 				}
 			}
 		}
+		var has_players = false;
+		if (game !== undefined) {
+			for (var pl in games[game].players) {
+				if (games[game].players[pl].is_active) {
+					has_players = true;
+					io.sockets.sockets[games[game].players[pl].id].emit('pl_disconected', pl_dis);
+				}
+			}
+			if (!has_players) {
+				games.splice(game,1);
+			}
+		}
+	});
+
+	socket.on('hais, you there?', function () {
+		io.sockets.sockets[socket.id].emit('Yeah, I\' alive :-)');
 	});
 
 });

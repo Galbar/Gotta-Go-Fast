@@ -48,10 +48,14 @@ function Game () {
 }
 
 Game.prototype.update = function(deltatime) {
-    if (this.scenes[this.current_scene].update(deltatime))
+    if (this.scenes[this.current_scene].update(deltatime) === true)
     {
         this.current_scene++;
-        this.current_scene %= 3;
+        if (this.current_scene > 2) {
+            this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
+            this.scenes[MATCH_MAKING_SCENE] = new MatchMakingScene(this.socket);
+            this.current_scene = 0;
+        }
     }
 };
 
@@ -69,7 +73,8 @@ Game.prototype._play = function() {
 
 Game.prototype.play = function() {
     // Do some stuff
-    this.current_scene = MATCH_MAKING_SCENE;
+    this.current_scene = MAIN_SCENE;
+    this.scenes[MAIN_SCENE] = new MainScene(this.socket);
     this.scenes[MATCH_MAKING_SCENE] = new MatchMakingScene(this.socket);
     this.scenes[GAME_SCENE] = new GameScene(this.socket);
     var self = this;

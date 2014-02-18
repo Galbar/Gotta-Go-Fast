@@ -93,19 +93,26 @@ GameScene.prototype.sendCommand = function(c) {
 };
 
 GameScene.prototype.update = function(deltatime) {
-    if (!this.match_start) {return;};
-    if ((this.players[this.player_id].vy === 0 ) && ( this.kb.char("W") || this.kb.char(" ") || this.kb.char("&")))
-        this.sendCommand("U");
-    else if (this.kb.char("A") || this.kb.char("%"))
-        this.sendCommand("L");
-    else if (this.kb.char("D") || this.kb.char("'"))
-        this.sendCommand("R");
+    if (!this.match_start) {return false;};
+
+    if (this.players[this.player_id].is_active) {
+        if ((this.players[this.player_id].vy === 0 ) && ( this.kb.char("W") || this.kb.char(" ") || this.kb.char("&")))
+            this.sendCommand("U");
+        else if (this.kb.char("A") || this.kb.char("%"))
+            this.sendCommand("L");
+        else if (this.kb.char("D") || this.kb.char("'"))
+            this.sendCommand("R");
+    }
+    else if (this.kb.keys[13]) {
+        window.location = window.location;
+    }
 
     for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.80)
         this.wspeed++;
+    return false;
 };
 
 GameScene.prototype.draw = function(context) {
@@ -134,6 +141,13 @@ GameScene.prototype.draw = function(context) {
         {
             context.fillStyle = "red";
             context.fillText("▶",7,(15*it)+17);
+        }
+        if (!this.players[this.player_id].is_active) {
+            context.font = "bold 70px Arial";
+            context.fillStyle = "red";
+            context.fillText("YOU LOST",320,(CANVAS_HEIGHT/2)-15);
+            context.font = "bold 30px Arial";
+            context.fillText("Press [Enter] to exit.",360,(CANVAS_HEIGHT/2)+50);
         }
     }
 };

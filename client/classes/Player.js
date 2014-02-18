@@ -79,7 +79,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 	}
 
 	if (new_x < 0) {
-		new_x = 0.1;
+		this.is_active = false;
 	}
 
 	if (new_y > CANVAS_HEIGHT-this.height) {
@@ -92,7 +92,7 @@ Player.prototype.update = function(dt, wspeed, obstacles) {
 	}
 
 	if (new_x > CANVAS_WIDTH) {
-		new_x = CANVAS_WIDTH;
+		this.is_active = false;
 	}
 
 	this.x = new_x;
