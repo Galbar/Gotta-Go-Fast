@@ -122,12 +122,10 @@ function fixGameStatus (game) {
 		if (game.players[pl].is_active) {
 			for (var pl2 in game.client_status.players) {
 				if (game.players[pl2].is_active) {
-					fixed_status[pl].x += game.client_status.players[pl2][pl].x;
-					fixed_status[pl].y += game.client_status.players[pl2][pl].y;
+					fixed_status[pl2].x = game.client_status.players[pl][pl].x;
+					fixed_status[pl2].y = game.client_status.players[pl][pl].y;
 				}
 			}
-			fixed_status[pl].x /= pl_act;
-			fixed_status[pl].y /= pl_act;
 		}
 	}
 

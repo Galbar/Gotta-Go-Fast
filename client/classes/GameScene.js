@@ -145,7 +145,7 @@ GameScene.prototype.draw = function(context) {
         if (!this.players[this.player_id].is_active) {
             context.font = "bold 70px Arial";
             context.fillStyle = "red";
-            context.fillText("YOU LOST",320,(CANVAS_HEIGHT/2)-15);
+            context.fillText("YOU LOOSE",320,(CANVAS_HEIGHT/2)-15);
             context.font = "bold 30px Arial";
             context.fillText("Press [Enter] to exit.",360,(CANVAS_HEIGHT/2)+50);
         }
