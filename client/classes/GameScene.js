@@ -108,14 +108,13 @@ GameScene.prototype.update = function(deltatime) {
         window.location = window.location;
     }
 
-    var foo = false;
     for (var it in this.players) {
         this.players[it].update(deltatime, -this.wspeed,this.obstacles);
         if (it !== this.player_id)
-            foo |= this.players[it].is_active;
+            this.you_win |= this.players[it].is_active;
     }
 
-    this.you_win = !foo;
+    this.you_win = !this.you_win;
 
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
