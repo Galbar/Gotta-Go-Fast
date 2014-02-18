@@ -4,7 +4,7 @@ var GAME_SCENE = 2;
 
 function Game () {
     // Control stuff
-    this.deltatime = 50;
+    this.deltatime = 30;
     this.socket = io.connect(SERVER_IP+':'+SERVER_PORT);
     var self = this;
     this.socket.on('connect', function () {
