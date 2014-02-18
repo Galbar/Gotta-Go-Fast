@@ -9,7 +9,7 @@ var gameId = 0;
 var standardGameSize = 2;
 var games = [];
 
-var DELTA_TIME = 50;
+var DELTA_TIME = 35;
 
 var ESPAI_MIN_OBS = 380;
 var DESNIVELL_MAX = 200;
