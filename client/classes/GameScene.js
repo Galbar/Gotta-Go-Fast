@@ -96,7 +96,7 @@ GameScene.prototype.sendCommand = function(c) {
 GameScene.prototype.update = function(deltatime) {
     if (!this.match_start) {return false;};
 
-    if (this.players[this.player_id].is_active) {
+    if (this.players[this.player_id].is_active && !this.you_win) {
         if ((this.players[this.player_id].vy === 0 ) && ( this.kb.char("W") || this.kb.char(" ") || this.kb.char("&")))
             this.sendCommand("U");
         else if (this.kb.char("A") || this.kb.char("%"))
