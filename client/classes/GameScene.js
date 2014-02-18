@@ -159,7 +159,7 @@ GameScene.prototype.draw = function(context) {
         }
         else if (this.you_win) {
             context.font = "bold 70px Arial";
-            context.fillStyle = "gree";
+            context.fillStyle = "green";
             context.fillText("YOU WIN",340,(CANVAS_HEIGHT/2)-15);
             context.font = "bold 30px Arial";
             context.fillText("Press [Enter] to exit.",360,(CANVAS_HEIGHT/2)+50);
