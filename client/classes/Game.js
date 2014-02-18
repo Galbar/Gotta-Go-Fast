@@ -12,7 +12,7 @@ function Game () {
     });
 
     this.socket.on('updateDeltatime', function (deltatime) {
-        self.deltatime = deltatime/1000;
+        self.deltatime = deltatime;
     });
 
     // Canvas stuff
@@ -63,7 +63,7 @@ Game.prototype.draw = function() {
 Game.prototype._play = function() {
     this.stats.begin();
     this.draw();
-    this.update(this.deltatime);
+    this.update(this.deltatime/1000);
     this.stats.end();
 };
 
@@ -74,5 +74,5 @@ Game.prototype.play = function() {
     this.scenes[GAME_SCENE] = new GameScene(this.socket);
     var self = this;
     //requestAnimFrame(gameLoop);
-    setTimeout(gameLoop, 16)
+    setTimeout(gameLoop, self.deltatime)
 };

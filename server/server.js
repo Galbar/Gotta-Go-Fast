@@ -131,7 +131,7 @@ function fixGameStatus (game) {
 		}
 	}
 
-	var fixed_obs = {
+	/*var fixed_obs = {
 		id: 0,
 		x: 0
 	};
@@ -142,10 +142,10 @@ function fixGameStatus (game) {
 	fixed_obs.x /= pl_act;
 	var it;
 	for (var id in game.players) if (game.players[id].is_active) {it = id; break;};
-	fixed_it = game.client_status.obs[it].it;
+	fixed_it = game.client_status.obs[it].it;*/
 	for (var pl in game.players) {
 		if (game.players[pl].is_active)
-			io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status, fixed_obs, fixed_it);
+			io.sockets.sockets[game.players[pl].id].emit('updateGameStatus', fixed_status);
 	}
 }
 
@@ -225,4 +225,4 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-setInterval(sendAllGameCommands, DELTA_TIME);
+setInterval(sendAllGameCommands, DELTA_TIME*2);
