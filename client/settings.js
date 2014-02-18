@@ -1,6 +1,6 @@
 // Conection
-var SERVER_IP = '192.168.1.144';
-var SERVER_PORT = 4242;
+var SERVER_IP = 'https://vgafib.com';
+var SERVER_PORT = 4135;
 
 // Canvas
 var CANVAS_WIDTH = 1000;

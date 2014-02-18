@@ -1,4 +1,4 @@
-var io = require('socket.io').listen(4242);
+var io = require('socket.io').listen(4135);
 io.set('log level', 1);
 
 var getRandomUsername = require('./lib');
@@ -120,12 +120,8 @@ function fixGameStatus (game) {
 	}
 	for (var pl in game.client_status.players) {
 		if (game.players[pl].is_active) {
-			for (var pl2 in game.client_status.players) {
-				if (game.players[pl2].is_active) {
-					fixed_status[pl2].x = game.client_status.players[pl][pl].x;
-					fixed_status[pl2].y = game.client_status.players[pl][pl].y;
-				}
-			}
+			fixed_status[pl].x = game.client_status.players[pl][pl].x;
+			fixed_status[pl].y = game.client_status.players[pl][pl].y;
 		}
 	}
 

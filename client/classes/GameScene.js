@@ -1,6 +1,7 @@
 function GameScene (socket) {
     this.kb = new KeyboardJS(false);
     this.socket = socket;
+    this.you_win = false;
     this.match_id;
     this.player_id;
     this.players = [];
@@ -107,7 +108,14 @@ GameScene.prototype.update = function(deltatime) {
         window.location = window.location;
     }
 
-    for (var it in this.players) this.players[it].update(deltatime, -this.wspeed,this.obstacles);
+    var foo = false;
+    for (var it in this.players) {
+        this.players[it].update(deltatime, -this.wspeed,this.obstacles);
+        foo |= this.players[it].is_active;
+    }
+
+    this.you_win = !foo;
+
     for (var it in this.obstacles) this.obstacles[it].update(deltatime, -this.wspeed, this.obstacles, this.future_obstacles);
 
     if (this.wspeed < this.players[0].speedx*0.80)
@@ -142,10 +150,17 @@ GameScene.prototype.draw = function(context) {
             context.fillStyle = "red";
             context.fillText("▶",7,(15*it)+17);
         }
-        if (!this.players[this.player_id].is_active) {
+        if (!this.players[this.player_id].is_active && !this.you_win) {
             context.font = "bold 70px Arial";
             context.fillStyle = "red";
             context.fillText("YOU LOOSE",320,(CANVAS_HEIGHT/2)-15);
+            context.font = "bold 30px Arial";
+            context.fillText("Press [Enter] to exit.",360,(CANVAS_HEIGHT/2)+50);
+        }
+        else if (this.you_win) {
+            context.font = "bold 70px Arial";
+            context.fillStyle = "gree";
+            context.fillText("YOU WIN",340,(CANVAS_HEIGHT/2)-15);
             context.font = "bold 30px Arial";
             context.fillText("Press [Enter] to exit.",360,(CANVAS_HEIGHT/2)+50);
         }
