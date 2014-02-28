@@ -1,3 +1,4 @@
+
 function getRandomUsername () {
 	var s = Math.floor(Math.random()*4);
 	var names = new Array();
